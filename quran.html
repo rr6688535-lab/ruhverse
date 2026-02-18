@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Read Quran - RuhVerse</title>
+    <link rel="stylesheet" href="style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@300;400;500&family=Playfair+Display:wght@400;600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body class="quran-page-body">
+
+    <div class="quran-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="Index.html" class="back-link">← Home</a>
+                <div class="sidebar-controls">
+                    <button id="login-btn-sidebar" class="icon-btn" title="Login">👤</button>
+                    <button id="night-mode-toggle" class="icon-btn" title="Night Mode">🌙</button>
+                </div>
+                <h2 style="font-size: 1.5rem; margin-top: 1rem;">Surahs</h2>
+                <input type="text" id="surah-search" placeholder="Search Surah...">
+            </div>
+
+            <ul class="surah-list" id="surah-list">
+                <!-- Surahs populated by JS -->
+                <li style="text-align:center; padding:2rem;">Loading Surahs...</li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="quran-content-area">
+            <div class="quran-toolbar">
+                <h1 id="current-surah-title">Al-Fatihah</h1>
+                <div class="view-options">
+                    <button class="view-btn active" id="btn-arabic">Arabic</button>
+                    <button class="view-btn" id="btn-trans">Translation</button>
+                </div>
+            </div>
+
+            <div id="quran-text-container" class="quran-text-container">
+                <!-- Verses populated by JS -->
+                <div class="loading-spinner">Loading Quran Data...</div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Login Modal (Same as Index) -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Login</h2>
+            <form id="login-form">
+                <input type="email" placeholder="Email" class="input-field">
+                <input type="password" placeholder="Password" class="input-field">
+                <button type="submit" class="btn-primary">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

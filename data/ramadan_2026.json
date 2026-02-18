@@ -1,0 +1,289 @@
+{
+    "year": 2026,
+    "hijriYear": 1447,
+    "location": "New Delhi, India",
+    "method": "University of Islamic Sciences, Karachi",
+    "note": "Times in IST (Indian Standard Time). Sehri = Imsak time. Iftar = Maghrib time.",
+    "days": [
+        {
+            "day": 1,
+            "date": "18 Feb 2026",
+            "weekday": "Wed",
+            "sehri": "05:28 AM",
+            "fajr": "05:38 AM",
+            "iftar": "06:13 PM",
+            "hijri": "1 Ramadan"
+        },
+        {
+            "day": 2,
+            "date": "19 Feb 2026",
+            "weekday": "Thu",
+            "sehri": "05:27 AM",
+            "fajr": "05:37 AM",
+            "iftar": "06:14 PM",
+            "hijri": "2 Ramadan"
+        },
+        {
+            "day": 3,
+            "date": "20 Feb 2026",
+            "weekday": "Fri",
+            "sehri": "05:26 AM",
+            "fajr": "05:36 AM",
+            "iftar": "06:15 PM",
+            "hijri": "3 Ramadan"
+        },
+        {
+            "day": 4,
+            "date": "21 Feb 2026",
+            "weekday": "Sat",
+            "sehri": "05:26 AM",
+            "fajr": "05:36 AM",
+            "iftar": "06:16 PM",
+            "hijri": "4 Ramadan"
+        },
+        {
+            "day": 5,
+            "date": "22 Feb 2026",
+            "weekday": "Sun",
+            "sehri": "05:25 AM",
+            "fajr": "05:35 AM",
+            "iftar": "06:16 PM",
+            "hijri": "5 Ramadan"
+        },
+        {
+            "day": 6,
+            "date": "23 Feb 2026",
+            "weekday": "Mon",
+            "sehri": "05:24 AM",
+            "fajr": "05:34 AM",
+            "iftar": "06:17 PM",
+            "hijri": "6 Ramadan"
+        },
+        {
+            "day": 7,
+            "date": "24 Feb 2026",
+            "weekday": "Tue",
+            "sehri": "05:23 AM",
+            "fajr": "05:33 AM",
+            "iftar": "06:18 PM",
+            "hijri": "7 Ramadan"
+        },
+        {
+            "day": 8,
+            "date": "25 Feb 2026",
+            "weekday": "Wed",
+            "sehri": "05:22 AM",
+            "fajr": "05:32 AM",
+            "iftar": "06:18 PM",
+            "hijri": "8 Ramadan"
+        },
+        {
+            "day": 9,
+            "date": "26 Feb 2026",
+            "weekday": "Thu",
+            "sehri": "05:21 AM",
+            "fajr": "05:31 AM",
+            "iftar": "06:19 PM",
+            "hijri": "9 Ramadan"
+        },
+        {
+            "day": 10,
+            "date": "27 Feb 2026",
+            "weekday": "Fri",
+            "sehri": "05:20 AM",
+            "fajr": "05:30 AM",
+            "iftar": "06:20 PM",
+            "hijri": "10 Ramadan"
+        },
+        {
+            "day": 11,
+            "date": "28 Feb 2026",
+            "weekday": "Sat",
+            "sehri": "05:19 AM",
+            "fajr": "05:29 AM",
+            "iftar": "06:20 PM",
+            "hijri": "11 Ramadan"
+        },
+        {
+            "day": 12,
+            "date": "01 Mar 2026",
+            "weekday": "Sun",
+            "sehri": "05:18 AM",
+            "fajr": "05:28 AM",
+            "iftar": "06:21 PM",
+            "hijri": "12 Ramadan"
+        },
+        {
+            "day": 13,
+            "date": "02 Mar 2026",
+            "weekday": "Mon",
+            "sehri": "05:17 AM",
+            "fajr": "05:27 AM",
+            "iftar": "06:22 PM",
+            "hijri": "13 Ramadan"
+        },
+        {
+            "day": 14,
+            "date": "03 Mar 2026",
+            "weekday": "Tue",
+            "sehri": "05:16 AM",
+            "fajr": "05:26 AM",
+            "iftar": "06:22 PM",
+            "hijri": "14 Ramadan"
+        },
+        {
+            "day": 15,
+            "date": "04 Mar 2026",
+            "weekday": "Wed",
+            "sehri": "05:15 AM",
+            "fajr": "05:25 AM",
+            "iftar": "06:23 PM",
+            "hijri": "15 Ramadan"
+        },
+        {
+            "day": 16,
+            "date": "05 Mar 2026",
+            "weekday": "Thu",
+            "sehri": "05:14 AM",
+            "fajr": "05:24 AM",
+            "iftar": "06:23 PM",
+            "hijri": "16 Ramadan"
+        },
+        {
+            "day": 17,
+            "date": "06 Mar 2026",
+            "weekday": "Fri",
+            "sehri": "05:13 AM",
+            "fajr": "05:23 AM",
+            "iftar": "06:24 PM",
+            "hijri": "17 Ramadan"
+        },
+        {
+            "day": 18,
+            "date": "07 Mar 2026",
+            "weekday": "Sat",
+            "sehri": "05:12 AM",
+            "fajr": "05:22 AM",
+            "iftar": "06:25 PM",
+            "hijri": "18 Ramadan"
+        },
+        {
+            "day": 19,
+            "date": "08 Mar 2026",
+            "weekday": "Sun",
+            "sehri": "05:11 AM",
+            "fajr": "05:21 AM",
+            "iftar": "06:25 PM",
+            "hijri": "19 Ramadan"
+        },
+        {
+            "day": 20,
+            "date": "09 Mar 2026",
+            "weekday": "Mon",
+            "sehri": "05:10 AM",
+            "fajr": "05:20 AM",
+            "iftar": "06:26 PM",
+            "hijri": "20 Ramadan"
+        },
+        {
+            "day": 21,
+            "date": "10 Mar 2026",
+            "weekday": "Tue",
+            "sehri": "05:09 AM",
+            "fajr": "05:19 AM",
+            "iftar": "06:27 PM",
+            "hijri": "21 Ramadan",
+            "special": "Lailat-ul-Qadr"
+        },
+        {
+            "day": 22,
+            "date": "11 Mar 2026",
+            "weekday": "Wed",
+            "sehri": "05:07 AM",
+            "fajr": "05:17 AM",
+            "iftar": "06:27 PM",
+            "hijri": "22 Ramadan"
+        },
+        {
+            "day": 23,
+            "date": "12 Mar 2026",
+            "weekday": "Thu",
+            "sehri": "05:06 AM",
+            "fajr": "05:16 AM",
+            "iftar": "06:28 PM",
+            "hijri": "23 Ramadan",
+            "special": "Lailat-ul-Qadr"
+        },
+        {
+            "day": 24,
+            "date": "13 Mar 2026",
+            "weekday": "Fri",
+            "sehri": "05:05 AM",
+            "fajr": "05:15 AM",
+            "iftar": "06:28 PM",
+            "hijri": "24 Ramadan"
+        },
+        {
+            "day": 25,
+            "date": "14 Mar 2026",
+            "weekday": "Sat",
+            "sehri": "05:04 AM",
+            "fajr": "05:14 AM",
+            "iftar": "06:29 PM",
+            "hijri": "25 Ramadan",
+            "special": "Lailat-ul-Qadr"
+        },
+        {
+            "day": 26,
+            "date": "15 Mar 2026",
+            "weekday": "Sun",
+            "sehri": "05:03 AM",
+            "fajr": "05:13 AM",
+            "iftar": "06:29 PM",
+            "hijri": "26 Ramadan"
+        },
+        {
+            "day": 27,
+            "date": "16 Mar 2026",
+            "weekday": "Mon",
+            "sehri": "05:02 AM",
+            "fajr": "05:12 AM",
+            "iftar": "06:30 PM",
+            "hijri": "27 Ramadan",
+            "special": "Lailat-ul-Qadr"
+        },
+        {
+            "day": 28,
+            "date": "17 Mar 2026",
+            "weekday": "Tue",
+            "sehri": "05:01 AM",
+            "fajr": "05:11 AM",
+            "iftar": "06:31 PM",
+            "hijri": "28 Ramadan"
+        },
+        {
+            "day": 29,
+            "date": "18 Mar 2026",
+            "weekday": "Wed",
+            "sehri": "04:59 AM",
+            "fajr": "05:09 AM",
+            "iftar": "06:31 PM",
+            "hijri": "29 Ramadan",
+            "special": "Lailat-ul-Qadr"
+        },
+        {
+            "day": 30,
+            "date": "19 Mar 2026",
+            "weekday": "Thu",
+            "sehri": "04:58 AM",
+            "fajr": "05:08 AM",
+            "iftar": "06:32 PM",
+            "hijri": "30 Ramadan"
+        }
+    ],
+    "eid": {
+        "date": "20 Mar 2026",
+        "weekday": "Fri",
+        "hijri": "1 Shawwal 1447"
+    }
+}

@@ -1,0 +1,126 @@
+{
+    "meta": {
+        "title": "RuhVerse",
+        "description": "Experience the Quran in a modern, interactive 3D environment."
+    },
+    "nav": {
+        "home": "Home",
+        "insights": "Quran Insights",
+        "quran": "Read Quran",
+        "prayer": "Prayer Times",
+        "ramadan": "Ramadan Timers",
+        "imaan": "Strengthen Imaan",
+        "login": "Login / Sign Up"
+    },
+    "hero": {
+        "title": "Experience the Divine Word",
+        "subtitle": "A modern, spiritual journey through the Holy Quran.",
+        "cta": "Start Reading",
+        "next_prayer": "Next Prayer in:"
+    },
+    "insights": {
+        "title": "Insights & Revelation",
+        "content": "The Quran was revealed to Prophet Muhammad (PBUH) over a period of 23 years. It is a guide for humanity, offering solace, wisdom, and a path to righteousness.",
+        "fact1": "Revealed in the month of Ramadan.",
+        "fact2": "Contains 114 Surahs (Chapters).",
+        "fact3": "Preserved purely in its original Arabic form."
+    },
+    "imaan": {
+        "title": "Strengthen Your Imaan",
+        "card1_title": "Patience (Sabr)",
+        "card1_text": "Indeed, Allah is with the patient. (Quran 2:153)",
+        "card2_title": "Gratitude (Shukr)",
+        "card2_text": "If you are grateful, I will surely increase you [in favor]. (Quran 14:7)",
+        "card3_title": "Mercy",
+        "card3_text": "My mercy encompasses all things. (Quran 7:156)"
+    },
+    "features": {
+        "quran_arabic": "Arabic Only",
+        "quran_translation": "With Translation",
+        "prayer_times": "Prayer Times",
+        "ramadan": "Ramadan Timers",
+        "ramadan_start": "Time Until Ramadan Starts",
+        "ramadan_end": "Time Until Ramadan Ends"
+    },
+    "login": {
+        "title": "Welcome Back",
+        "email_placeholder": "Enter your email",
+        "password_placeholder": "Enter your password",
+        "submit": "Login",
+        "note": "Login to sync your bookmarks and reading progress."
+    },
+    "surahs": [
+        {
+            "id": 1,
+            "name_ar": "الفاتحة",
+            "name_en": "Al-Fatiha",
+            "verses": 7
+        },
+        {
+            "id": 2,
+            "name_ar": "البقرة",
+            "name_en": "Al-Baqarah",
+            "verses": 286
+        },
+        {
+            "id": 3,
+            "name_ar": "آل عمران",
+            "name_en": "Ali 'Imran",
+            "verses": 200
+        },
+        {
+            "id": 4,
+            "name_ar": "النساء",
+            "name_en": "An-Nisa",
+            "verses": 176
+        },
+        {
+            "id": 5,
+            "name_ar": "المائدة",
+            "name_en": "Al-Ma'idah",
+            "verses": 120
+        },
+        {
+            "id": 18,
+            "name_ar": "الكهف",
+            "name_en": "Al-Kahf",
+            "verses": 110
+        },
+        {
+            "id": 36,
+            "name_ar": "يس",
+            "name_en": "Ya-Sin",
+            "verses": 83
+        },
+        {
+            "id": 55,
+            "name_ar": "الرحمن",
+            "name_en": "Ar-Rahman",
+            "verses": 78
+        },
+        {
+            "id": 67,
+            "name_ar": "الملك",
+            "name_en": "Al-Mulk",
+            "verses": 30
+        },
+        {
+            "id": 112,
+            "name_ar": "الإخلاص",
+            "name_en": "Al-Ikhlas",
+            "verses": 4
+        },
+        {
+            "id": 113,
+            "name_ar": "الفلق",
+            "name_en": "Al-Falaq",
+            "verses": 5
+        },
+        {
+            "id": 114,
+            "name_ar": "الناس",
+            "name_en": "An-Nas",
+            "verses": 6
+        }
+    ]
+}

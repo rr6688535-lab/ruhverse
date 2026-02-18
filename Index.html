@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RuhVerse - Read. Reflect. Remember. Read Quran Online For free</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="footer_styles.css">
+    <meta name="description"
+        content="Read the Holy Quran online with prayer times, Ramadan calendar and mosque locator.">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@300;400;500&family=Playfair+Display:wght@400;600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Minimal Navbar -->
+    <nav class="navbar">
+        <div class="logo">RuhVerse</div>
+
+        <!-- Desktop Links -->
+        <ul class="nav-links">
+            <li><a href="quran.html">Quran</a></li>
+            <li><a href="#prayer">Prayer</a></li>
+            <li><a href="#ramadan">Ramadan</a></li> <!-- Shortened names as per minimal vibe -->
+            <li><a href="#insights">Insights</a></li>
+        </ul>
+
+        <div style="display: flex; gap: 1rem; align-items: center;">
+            <span class="moon-icon" id="night-mode-toggle">&#9790;</span> <!-- Simple representation -->
+            <div class="hamburger" id="hamburger-btn">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="nav-overlay" id="nav-overlay">
+        <span class="close-btn" id="close-nav">&times;</span>
+        <ul class="nav-links-mobile">
+            <li><a href="quran.html">Read Quran</a></li>
+            <li><a href="#prayer">Prayer Times</a></li>
+            <li><a href="#ramadan">Ramadan</a></li>
+            <li><a href="#insights">Insights</a></li>
+            <li><a href="#imaan">Daily Imaan</a></li>
+        </ul>
+    </div>
+
+    <!-- Centered Hero -->
+    <section class="hero-section">
+        <div id="quran-3d-container"></div>
+        <h1 class="hero-title">Read. Reflect. Remember.</h1>
+        <p class="hero-subtitle">A calm, immersive digital experience with the Holy Quran.</p>
+
+        <div class="hero-actions">
+            <a href="quran.html" class="btn-pill btn-fill">Read Quran</a>
+            <a href="#prayer" class="btn-pill btn-outline">Prayer Times</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-text">
+                    <h2 class="section-title" style="text-align: left; margin-bottom: 1.5rem;">Our Mission</h2>
+                    <p class="about-p">RuhVerse is dedicated to providing a serene digital sanctuary for Muslims
+                        worldwide. Our goal is to blend modern technology with spiritual depth, making the study of the
+                        Holy Quran and the observance of Islamic practices seamless, beautiful, and accessible.</p>
+                    <p class="about-p">We believe that technology should serve the heart, fostering a deeper connection
+                        with the Creator through a calm, immersive experience.</p>
+                    <p class="attribution">Made with heart by <span class="author-name">Mohd Rameez</span></p>
+                </div>
+                <div class="about-features">
+                    <div class="mini-feature">
+                        <span class="feat-icon">📖</span>
+                        <div>
+                            <h4>Immersive Reading</h4>
+                            <p>Read the Quran with translations and a distraction-free 3D interface.</p>
+                        </div>
+                    </div>
+                    <div class="mini-feature">
+                        <span class="feat-icon">🕌</span>
+                        <div>
+                            <h4>Prayer Timings</h4>
+                            <p>Accurate, location-based prayer times with a sleek countdown.</p>
+                        </div>
+                    </div>
+                    <div class="mini-feature">
+                        <span class="feat-icon">🌙</span>
+                        <div>
+                            <h4>Ramadan Hub</h4>
+                            <p>A complete calendar and countdown for the blessed month.</p>
+                        </div>
+                    </div>
+                    <div class="mini-feature">
+                        <span class="feat-icon">✨</span>
+                        <div>
+                            <h4>Daily Insights</h4>
+                            <p>Hand-picked reflections and scientific facts renewed every 24 hours.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Prayer Times Section -->
+    <section id="prayer" class="prayer-section">
+        <div class="container">
+            <div class="prayer-header">
+                <h2>Prayer Times</h2>
+                <p>Auto-detected for your location</p> <!-- Placeholder text -->
+                <p style="margin-top: 0.5rem; font-size: 0.9rem;">Next: <span id="next-prayer-name">Maghrib</span></p>
+            </div>
+
+            <div class="large-countdown" id="prayer-countdown">00:35:59</div>
+
+            <div class="prayer-cards">
+                <div class="prayer-card">
+                    <h4>Fajr</h4>
+                    <span>05:48</span>
+                </div>
+                <div class="prayer-card">
+                    <h4>Dhuhr</h4>
+                    <span>12:35</span>
+                </div>
+                <div class="prayer-card">
+                    <h4>Asr</h4>
+                    <span>15:51</span>
+                </div>
+                <div class="prayer-card active">
+                    <h4>Maghrib</h4>
+                    <span>18:19</span>
+                </div>
+                <div class="prayer-card">
+                    <h4>Isha</h4>
+                    <span>19:21</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ramadan Countdown Section -->
+    <section id="ramadan" class="ramadan-countdown-section">
+        <div class="container">
+            <h2 class="section-title">Ramadan Countdown</h2>
+            <p class="ramadan-subtitle" style="color: rgba(255,255,255,0.7); margin-top: -2rem; margin-bottom: 3rem;">
+                Counting down to the most
+                blessed month of the year.</p>
+            <div class="ramadan-grid">
+                <div class="timer-card">
+                    <h3 id="ram-days">00</h3>
+                    <p>Days</p>
+                </div>
+                <div class="timer-card">
+                    <h3 id="ram-hrs">00</h3>
+                    <p>Hours</p>
+                </div>
+                <div class="timer-card">
+                    <h3 id="ram-min">00</h3>
+                    <p>Minutes</p>
+                </div>
+                <div class="timer-card">
+                    <h3 id="ram-sec">00</h3>
+                    <p>Seconds</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ramadan 2026 Calendar Section -->
+    <section id="ramadan-calendar" class="ramadan-calendar-section">
+        <div class="container">
+            <div class="ramadan-calendar-wrap">
+                <div class="ramadan-cal-header">
+                    <h2 class="section-title">Ramadan 2026 Calendar</h2>
+                    <p class="cal-location">New Delhi, India (IST)</p>
+                    <p class="cal-note">Sehri ends at Imsak · Iftar at Maghrib</p>
+                </div>
+                <div class="ramadan-table-scroll">
+                    <table class="ramadan-table" id="ramadan-calendar-table">
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>Date</th>
+                                <th>Hijri</th>
+                                <th>🌙 Sehri Ends</th>
+                                <th>🌅 Fajr</th>
+                                <th>🌇 Iftar</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="ramadan-cal-body">
+                            <!-- Filled by JS -->
+                        </tbody>
+                    </table>
+                </div>
+                <p class="cal-eid">🎉 Eid ul-Fitr: <strong>20 March 2026 (Friday)</strong> · 1 Shawwal 1447</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Insights Section -->
+    <section id="insights" class="prayer-section">
+        <div class="container">
+            <div class="insights-header">
+                <h2 class="section-title">Daily Insights</h2>
+                <p style="color: rgba(255,255,255,0.7); margin-top: -2rem; margin-bottom: 3rem;">Reflections and facts,
+                    renewed every 24 hours.</p>
+            </div>
+
+            <div class="insights-slider-wrapper">
+                <button class="slider-arrow prev" id="ins-prev">&#10094;</button>
+                <div class="insights-slider-container">
+                    <div class="insights-slider" id="insights-track">
+                        <!-- Dynamic cards will be injected here -->
+                    </div>
+                </div>
+                <button class="slider-arrow next" id="ins-next">&#10095;</button>
+            </div>
+
+            <!-- Optional: Navigation dots -->
+            <div class="slider-nav" id="slider-nav"></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+
+                <!-- Column 1: Brand & Slogan -->
+                <div class="footer-col">
+                    <div class="footer-logo">RuhVerse</div>
+                    <p class="footer-slogan">Illuminating Hearts with Divine Wisdom.</p>
+                </div>
+
+                <!-- Column 2: Quick Links -->
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="quran.html">Read Quran</a></li>
+                        <li><a href="#prayer">Prayer Times</a></li>
+                        <li><a href="#ramadan">Ramadan</a></li>
+                        <li><a href="#insights">Insights</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Legal -->
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                    <ul class="footer-links">
+                        <li><a href="terms.html">Terms & Conditions</a></li>
+                        <li><a href="terms.html">Privacy Policy</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4: Contact -->
+                <div class="footer-col">
+                    <h4>Contact Us</h4>
+                    <ul class="footer-links">
+                        <li><a href="mailto:ruhverce@gmail.com">ruhverce@gmail.com</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                &copy; 2026 RuhVerse. All rights reserved. | Made by <span class="author-name">Mohd Rameez</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="script_3d.js"></script>
+    <script src="data/insights.js"></script>
+    <script src="data/ramadan_2026.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

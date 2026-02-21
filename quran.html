@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Read Quran - RuhVerse</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/jpg" href="assets/Gemini_Generated_Image_1z0kzx1z0kzx1z0k.jpg">
     <link
         href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@300;400;500&family=Playfair+Display:wght@400;600;700&display=swap"
         rel="stylesheet">
@@ -19,10 +20,13 @@
             <div class="sidebar-header">
                 <a href="Index.html" class="back-link">← Home</a>
                 <div class="sidebar-controls">
-                    <button id="login-btn-sidebar" class="icon-btn" title="Login">👤</button>
                     <button id="night-mode-toggle" class="icon-btn" title="Night Mode">🌙</button>
                 </div>
-                <h2 style="font-size: 1.5rem; margin-top: 1rem;">Surahs</h2>
+                <h2 style="font-size: 1.5rem; margin-top: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <img src="assets/Gemini_Generated_Image_1z0kzx1z0kzx1z0k.jpg" alt="Logo"
+                        style="height: 24px; width: auto;">
+                    Surahs
+                </h2>
                 <input type="text" id="surah-search" placeholder="Search Surah...">
             </div>
 
@@ -35,32 +39,44 @@
         <!-- Main Content -->
         <main class="quran-content-area">
             <div class="quran-toolbar">
-                <h1 id="current-surah-title">Al-Fatihah</h1>
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <button id="mobile-surah-btn" class="mobile-only-btn" title="Surah List">☰ Surahs</button>
+                    <h1 id="current-surah-title">Al-Fatihah</h1>
+                </div>
                 <div class="view-options">
+                    <button class="view-btn icon-btn" id="btn-audio" title="Listen to Surah">🔊
+                        <span>Listen</span></button>
                     <button class="view-btn active" id="btn-arabic">Arabic</button>
                     <button class="view-btn" id="btn-trans">Translation</button>
                 </div>
+            </div>
+
+            <!-- Audio Player Bar (Static placeholder, visibility toggled by JS) -->
+            <div class="audio-player-bar" id="audio-player-bar">
+                <div class="player-info">
+                    <span id="player-status">Playing: Al-Fatihah</span>
+                    <span id="player-ayah">Verse 1</span>
+                </div>
+                <div class="player-controls">
+                    <button id="audio-prev" class="player-btn">⏮</button>
+                    <button id="audio-play-pause" class="player-btn">⏸</button>
+                    <button id="audio-next" class="player-btn">⏭</button>
+                </div>
+                <button id="audio-close" class="close-player">×</button>
             </div>
 
             <div id="quran-text-container" class="quran-text-container">
                 <!-- Verses populated by JS -->
                 <div class="loading-spinner">Loading Quran Data...</div>
             </div>
+
+            <!-- Bottom Pagination -->
+            <div class="pagination-controls bottom-pagination" id="pagination-bottom">
+                <!-- Injected via JS -->
+            </div>
         </main>
     </div>
 
-    <!-- Login Modal (Same as Index) -->
-    <div id="login-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn">&times;</span>
-            <h2>Login</h2>
-            <form id="login-form">
-                <input type="email" placeholder="Email" class="input-field">
-                <input type="password" placeholder="Password" class="input-field">
-                <button type="submit" class="btn-primary">Login</button>
-            </form>
-        </div>
-    </div>
 
     <script src="script.js"></script>
 </body>

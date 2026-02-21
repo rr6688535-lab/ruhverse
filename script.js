@@ -1,4 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
+    initApp();
+    setupLocationIntelligence();
+});
+
+function initApp() {
     setupDarkMode(); // Shared logic
 
     // Only run if specific elements exist
@@ -7,7 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         // Home page logic
         try {
-            loadContent();
             setupNavigation();
             setupTimers();
             loadRamadanCalendar();
@@ -16,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error("Critical error in homepage init:", err);
         }
     }
-});
+}
 
 // --- API Config ---
 const API_ARABIC = 'https://api.alquran.cloud/v1/quran/quran-uthmani';
@@ -408,14 +412,6 @@ function setupQuranViewControls() {
 }
 
 // --- Shared (Home) Logic ---
-let globalData = null;
-async function loadContent() {
-    try {
-        const response = await fetch('data/content.json');
-        if (response.ok) globalData = await response.json();
-    } catch (error) { console.error('Error loading content:', error); }
-}
-
 function setupNavigation() {
     const hamburger = document.getElementById('hamburger-btn');
     const overlay = document.getElementById('nav-overlay');
@@ -428,18 +424,11 @@ function setupTimers() {
     // --- Hardcoded Ramadan dates (IST) — accurate for India ---
     // Source: Islamic calendar. Ramadan starts at Fajr on the listed date.
     const RAMADAN_DATES = {
-        2024: { start: '2024-03-11', end: '2024-04-09' },
-        2025: { start: '2025-03-01', end: '2025-03-30' },
         2026: { start: '2026-02-19', end: '2026-03-21' },
         2027: { start: '2027-02-08', end: '2027-03-09' },
         2028: { start: '2028-01-28', end: '2028-02-26' },
         2029: { start: '2029-01-16', end: '2029-02-14' },
         2030: { start: '2030-01-05', end: '2030-02-03' },
-        2031: { start: '2031-12-26', end: '2032-01-24' },
-        2032: { start: '2032-12-14', end: '2033-01-12' },
-        2033: { start: '2033-12-03', end: '2034-01-01' },
-        2034: { start: '2034-11-22', end: '2034-12-21' },
-        2035: { start: '2035-11-12', end: '2035-12-11' },
     };
 
     function getRamadanDates() {
@@ -855,7 +844,158 @@ function loadDailyInsights() {
         updateCarousel();
     };
 
+    // --- Touch Swipe Support ---
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    track.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    track.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    }, { passive: true });
+
+    function handleSwipe() {
+        const swipeThreshold = 50; // Minimum pixels for a swipe
+        const diff = touchStartX - touchEndX;
+
+        if (Math.abs(diff) > swipeThreshold) {
+            if (diff > 0) {
+                // Swiped Left -> Next
+                activeIndex = (activeIndex + 1) % subsetCount;
+            } else {
+                // Swiped Right -> Prev
+                activeIndex = (activeIndex - 1 + subsetCount) % subsetCount;
+            }
+            updateCarousel();
+        }
+    }
+
     // Initialize position and handle resize
     window.addEventListener('resize', updateCarousel);
     setTimeout(updateCarousel, 100); // Small delay to ensure layout is ready
+}
+
+/**
+ * 7. Location Intelligence & Global City Search
+ */
+function setupLocationIntelligence() {
+    const searchBtn = document.getElementById('city-search-btn');
+    const detectBtn = document.getElementById('detect-location-btn');
+    const cityInput = document.getElementById('city-search-input');
+
+    if (searchBtn) searchBtn.addEventListener('click', () => handleCitySearch());
+    if (detectBtn) detectBtn.addEventListener('click', () => syncUserLocation());
+    if (cityInput) {
+        cityInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleCitySearch();
+        });
+    }
+}
+
+async function handleCitySearch() {
+    const input = document.getElementById('city-search-input');
+    const city = input.value.trim();
+    if (!city) return alert('Please enter a city name.');
+
+    const btn = document.getElementById('city-search-btn');
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '<span>Searching...</span>';
+    btn.disabled = true;
+
+    try {
+        const url = `https://api.aladhan.com/v1/timingsByCity?city=${city}&country=&method=1`;
+        const res = await fetch(url);
+        const data = await res.json();
+
+        if (data.code === 200) {
+            renderLocationCard(city, data.data.timings);
+        } else {
+            alert('City not found. Please try a major city name.');
+        }
+    } catch (error) {
+        console.error('Search error:', error);
+        alert('Could not connect to the intelligence hub.');
+    } finally {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+    }
+}
+
+function syncUserLocation() {
+    if (!navigator.geolocation) return alert('Geolocation is not supported by your browser.');
+
+    const btn = document.getElementById('detect-location-btn');
+    btn.innerHTML = '<span>📍 Detecting...</span>';
+
+    navigator.geolocation.getCurrentPosition(async (pos) => {
+        const { latitude, longitude } = pos.coords;
+        try {
+            // Reverse Geocode for City Name
+            const geoUrl = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`;
+            const geoRes = await fetch(geoUrl);
+            const geoData = await geoRes.json();
+            const cityName = geoData.city || geoData.locality || 'Current Location';
+
+            const prayerUrl = `https://api.aladhan.com/v1/timings/${Math.floor(Date.now() / 1000)}?latitude=${latitude}&longitude=${longitude}&method=1`;
+            const prayerRes = await fetch(prayerUrl);
+            const prayerData = await prayerRes.json();
+
+            renderLocationCard(cityName, prayerData.data.timings);
+        } catch (e) {
+            alert('Detected location, but failed to fetch timings.');
+        } finally {
+            btn.innerHTML = '<span>📍 Detect My City</span>';
+        }
+    }, () => {
+        alert('Location access denied.');
+        btn.innerHTML = '<span>📍 Detect My City</span>';
+    });
+}
+
+function renderLocationCard(name, t) {
+    const container = document.getElementById('dynamic-search-results');
+    container.style.display = 'block';
+
+    container.innerHTML = `
+        <div class="featured-location-card">
+            <div class="loc-header">
+                <div>
+                    <span style="text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; opacity: 0.8;">Active Location</span>
+                    <h2>${name}</h2>
+                </div>
+                <div style="font-size: 2rem;">🕊️</div>
+            </div>
+            <div class="timings-strip">
+                <div class="timing-item">
+                    <label>Fajr</label>
+                    <span>${t.Fajr}</span>
+                </div>
+                <div class="timing-item">
+                    <label>Dhuhr</label>
+                    <span>${t.Dhuhr}</span>
+                </div>
+                <div class="timing-item" style="border-color: var(--gold);">
+                    <label>Asr</label>
+                    <span>${t.Asr}</span>
+                </div>
+                <div class="timing-item">
+                    <label>Maghrib</label>
+                    <span>${t.Maghrib}</span>
+                </div>
+                <div class="timing-item">
+                    <label>Isha</label>
+                    <span>${t.Isha}</span>
+                </div>
+            </div>
+            <div style="margin-top: 1.5rem; font-size: 0.8rem; opacity: 0.7; text-align: center;">
+                Times based on Islamic University, Karachi Method
+            </div>
+        </div>
+    `;
+
+    // Smooth scroll to the result
+    container.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }

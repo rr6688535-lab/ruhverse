@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://ruhverse.online/</loc>
     <lastmod>2026-02-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://ruhverse.online/assets/Gemini_Generated_Image_1z0kzx1z0kzx1z0k.jpg</image:loc>
+      <image:caption>RuhVerse - Premium Quran Experience</image:caption>
+      <image:title>RuhVerse Logo</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://ruhverse.online/quran.html</loc>
     <lastmod>2026-02-21</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://ruhverse.online/terms.html</loc>

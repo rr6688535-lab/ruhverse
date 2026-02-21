@@ -1,0 +1,20 @@
+﻿    }
+
+    #player-status {
+        font-size: 0.85rem;
+    }
+
+    #player-ayah {
+        font-size: 0.7rem;
+    }
+
+    /* Smallest Mobile Fix: Force full visibility */
+    .fact-card {
+        flex: 0 0 calc(100vw - 3rem) !important;
+        margin: 0 !important;
+    }
+
+    .fact-card.active {
+        transform: scale(1.02) !important;
+    }
+}

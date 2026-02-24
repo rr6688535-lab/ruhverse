@@ -4,13 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Read Quran Online - RuhVerse</title>
+    <title><!--SSR_PAGE_TITLE-->Read Quran Online - RuhVerse</title>
     <meta name="description"
-        content="Read the Holy Quran online with translations, beautiful recitations, and a premium 3D interface on RuhVerse.">
+        content="<!--SSR_PAGE_DESCRIPTION-->Read the Holy Quran online with translations, beautiful recitations, and a premium 3D interface on RuhVerse.">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="footer_styles.css">
     <link rel="icon" type="image/jpg" href="assets/Gemini_Generated_Image_1z0kzx1z0kzx1z0k.jpg">
-    <link rel="canonical" href="https://ruhverse.online/quran.html" />
+    <link rel="canonical" href="<!--SSR_CANONICAL-->https://ruhverse.online/quran.html" />
     <link
         href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@300;400;500&family=Playfair+Display:wght@400;600;700&display=swap"
         rel="stylesheet">
@@ -35,8 +35,8 @@
             </div>
 
             <ul class="surah-list" id="surah-list">
-                <!-- Surahs populated by JS -->
-                <li style="text-align:center; padding:2rem;">Loading Surahs...</li>
+                <!-- Surahs populated by JS or server (SSR) -->
+                <!--SSR_SURAH_LIST-->
             </ul>
         </aside>
 
@@ -45,7 +45,7 @@
             <div class="quran-toolbar">
                 <div style="display: flex; align-items: center; gap: 1rem;">
                     <button id="mobile-surah-btn" class="mobile-only-btn" title="Surah List">☰ Surahs</button>
-                    <h1 id="current-surah-title">Al-Fatihah</h1>
+                    <h1 id="current-surah-title"><!--SSR_CURRENT_SURAH_TITLE-->Al-Fatihah</h1>
                 </div>
                 <div class="view-options">
                     <button class="view-btn icon-btn" id="btn-audio" title="Listen to Surah">🔊
@@ -70,8 +70,8 @@
             </div>
 
             <div id="quran-text-container" class="quran-text-container">
-                <!-- Verses populated by JS -->
-                <div class="loading-spinner">Loading Quran Data...</div>
+                <!-- Verses populated by JS or injected by server (SSR) -->
+                <!--SSR_QURAN_CONTENT-->
             </div>
 
             <!-- Bottom Pagination -->
@@ -95,9 +95,9 @@
                     <h4>Quick Links</h4>
                     <ul class="footer-links">
                         <li><a href="quran.html">Read Quran</a></li>
-                        <li><a href="Index.html#prayer">Prayer Times</a></li>
-                        <li><a href="Index.html#ramadan">Ramadan</a></li>
-                        <li><a href="Index.html#insights">Insights</a></li>
+                        <li><a href="index.html#prayer">Prayer Times</a></li>
+                        <li><a href="index.html#ramadan">Ramadan</a></li>
+                        <li><a href="index.html#insights">Insights</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
@@ -120,6 +120,7 @@
         </div>
     </footer>
 
+    <!--SSR_DATA-->
     <script src="script.js"></script>
     <!-- Vercel Analytics -->
     <script defer src="/_vercel/insights/script.js"></script>

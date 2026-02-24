@@ -25,11 +25,36 @@ function initApp() {
 // --- API Config ---
 const API_ARABIC = 'https://api.alquran.cloud/v1/quran/quran-uthmani';
 const API_ENGLISH = 'https://api.alquran.cloud/v1/quran/en.sahih';
+const API_QURAN_DATA = '/api/quran-data';
 
 // --- State ---
 let quranArabic = null;
 let quranEnglish = null;
-let currentSurahIndex = 0; // 0-based index
+let currentSurahIndex = getInitialSurahIndex(); // 0-based index
+let hasFullQuranData = false;
+
+function getInitialSurahIndex() {
+    if (typeof window !== 'undefined' && Number.isInteger(window.__INITIAL_SURAH_INDEX)) {
+        return Math.min(113, Math.max(0, window.__INITIAL_SURAH_INDEX));
+    }
+
+    if (typeof window !== 'undefined') {
+        const match = window.location.pathname.match(/\/quran\/surah\/(\d+)/i);
+        if (match) {
+            const parsed = Number(match[1]) - 1;
+            if (Number.isInteger(parsed) && parsed >= 0 && parsed < 114) {
+                return parsed;
+            }
+        }
+
+        const querySurah = Number(new URLSearchParams(window.location.search).get('surah'));
+        if (Number.isInteger(querySurah) && querySurah >= 1 && querySurah <= 114) {
+            return querySurah - 1;
+        }
+    }
+
+    return 0;
+}
 
 async function setupQuranApp() {
     setupSidebarControls();
@@ -55,10 +80,45 @@ async function setupQuranApp() {
     }
 
     const surahList = document.getElementById('surah-list');
-    surahList.innerHTML = '<li style="padding:2rem; text-align:center;">Fetching Quran Data...</li>';
+    const quranContainer = document.getElementById('quran-text-container');
+    if (!surahList.querySelector('li')) {
+        surahList.innerHTML = '<li style="padding:2rem; text-align:center;">Fetching Quran Data...</li>';
+    }
+
+    // Prefer lightweight SSR bootstrap to reduce initial payload while keeping SSR HTML intact
+    if (window.__SSR_BOOTSTRAP && Array.isArray(window.__SSR_BOOTSTRAP.surahMeta)) {
+        try {
+            bootstrapQuranState(window.__SSR_BOOTSTRAP);
+            populateSurahList();
+            renderPagination();
+            await loadSurah(currentSurahIndex, false, true);
+            setupAudioPlayer();
+            ensureFullQuranData().catch(() => { });
+        } catch (err) {
+            console.error('Failed to initialize SSR bootstrap Quran data:', err);
+            if (quranContainer && !quranContainer.querySelector('.verse-block')) {
+                quranContainer.innerHTML = '<div class="loading-spinner">Unable to load verses right now. Please refresh.</div>';
+            }
+        }
+        return;
+    }
+
+    // Legacy SSR compatibility (full dataset injected)
+    if (window.__SSR_DATA && window.__SSR_DATA.quranArabic && window.__SSR_DATA.quranEnglish) {
+        quranArabic = window.__SSR_DATA.quranArabic;
+        quranEnglish = window.__SSR_DATA.quranEnglish;
+        hasFullQuranData = true;
+
+        populateSurahList();
+        renderPagination();
+        await loadSurah(currentSurahIndex, false, true);
+
+        setupAudioPlayer();
+        return;
+    }
 
     try {
-        // Parallel Fetch
+        // Parallel Fetch (CSR fallback)
         const [resAr, resEn] = await Promise.all([
             fetch(API_ARABIC),
             fetch(API_ENGLISH)
@@ -69,23 +129,76 @@ async function setupQuranApp() {
 
         quranArabic = jsonAr.data.surahs;
         quranEnglish = jsonEn.data.surahs;
+        hasFullQuranData = true;
 
         populateSurahList();
         renderPagination();
-        loadSurah(0); // Load Al-Fatihah
+        await loadSurah(currentSurahIndex);
         setupAudioPlayer();
 
     } catch (e) {
         console.error("Failed to load Quran:", e);
         surahList.innerHTML = '<li style="color:red; padding:1rem;">Failed to load data. Check internet.</li>';
+        if (quranContainer && !quranContainer.querySelector('.verse-block')) {
+            quranContainer.innerHTML = '<div class="loading-spinner">Failed to load Surah text. Check internet and refresh.</div>';
+        }
     }
+}
+
+function bootstrapQuranState(bootstrap) {
+    const meta = bootstrap.surahMeta;
+    quranArabic = meta.map((surah) => ({
+        ...surah,
+        ayahs: []
+    }));
+    quranEnglish = meta.map((surah) => ({
+        ...surah,
+        ayahs: []
+    }));
+
+    const idx = Number.isInteger(bootstrap.initialSurahIndex)
+        ? bootstrap.initialSurahIndex
+        : currentSurahIndex;
+    currentSurahIndex = Math.min(113, Math.max(0, idx));
+
+    if (bootstrap.initialSurahArabic && bootstrap.initialSurahEnglish) {
+        quranArabic[currentSurahIndex] = bootstrap.initialSurahArabic;
+        quranEnglish[currentSurahIndex] = bootstrap.initialSurahEnglish;
+    }
+}
+
+async function ensureFullQuranData() {
+    if (hasFullQuranData) return;
+
+    try {
+        const res = await fetch(API_QURAN_DATA);
+        if (res.ok) {
+            const json = await res.json();
+            if (json && json.quranArabic && json.quranEnglish) {
+                quranArabic = json.quranArabic;
+                quranEnglish = json.quranEnglish;
+                hasFullQuranData = true;
+                return;
+            }
+        }
+    } catch (_) {
+        // fall through to direct API calls below
+    }
+
+    const [resAr, resEn] = await Promise.all([
+        fetch(API_ARABIC),
+        fetch(API_ENGLISH)
+    ]);
+    const [jsonAr, jsonEn] = await Promise.all([resAr.json(), resEn.json()]);
+    quranArabic = jsonAr.data.surahs;
+    quranEnglish = jsonEn.data.surahs;
+    hasFullQuranData = true;
 }
 
 // --- Audio Engine ---
 let audioObj = new Audio();
 let isPlaying = false;
 let currentAyahIdx = 0;
-let recitationData = [];
 
 function setupAudioPlayer() {
     const btnAudio = document.getElementById('btn-audio');
@@ -120,23 +233,16 @@ function setupAudioPlayer() {
         }
     });
 
-    audioObj.onended = () => {
+    audioObj.onended = async () => {
         const surah = quranArabic[currentSurahIndex];
         if (currentAyahIdx < surah.ayahs.length - 1) {
             // Play next verse in current Surah
             playAyah(currentAyahIdx + 1);
         } else if (currentSurahIndex < 113) {
-            // End of Surah reached, automatically load and play next Surah
-            console.log("Surah finished. Auto-playing next Surah...");
-
             // Increment index and load UI (force reload)
             const nextIdx = currentSurahIndex + 1;
-            loadSurah(nextIdx, true, true); // Added 'forceReload' flag
-
-            // Small delay to ensure DOM is ready on mobile
-            setTimeout(() => {
-                playAyah(0);
-            }, 300);
+            await loadSurah(nextIdx, true, true);
+            playAyah(0);
         } else {
             // End of Quran
             stopAudio();
@@ -266,12 +372,12 @@ function populateSurahList() {
 
         // Play button click starts audio
         const playBtn = li.querySelector('.surah-play-btn');
-        playBtn.onclick = (e) => {
+        playBtn.onclick = async (e) => {
             e.stopPropagation(); // Don't trigger the li.onclick
 
             // If already on this surah, just start playing. Otherwise load it first.
             if (currentSurahIndex !== index) {
-                loadSurah(index);
+                await loadSurah(index);
             }
             playAyah(0);
         };
@@ -280,7 +386,7 @@ function populateSurahList() {
     });
 }
 
-function loadSurah(index, keepAudio = false, forceReload = false) {
+async function loadSurah(index, keepAudio = false, forceReload = false) {
     // Check if we already have this surah loaded to avoid unnecessary DOM thrashing
     // But allow forced reload during auto-play transitions
     if (!forceReload && currentSurahIndex === index && document.querySelector('.verse-block')) {
@@ -289,8 +395,24 @@ function loadSurah(index, keepAudio = false, forceReload = false) {
     }
 
     currentSurahIndex = index;
+    if (!quranArabic[index]?.ayahs?.length || !quranEnglish[index]?.ayahs?.length) {
+        const loadingContainer = document.getElementById('quran-text-container');
+        if (loadingContainer) {
+            loadingContainer.innerHTML = '<div class="loading-spinner">Loading Surah...</div>';
+        }
+        try {
+            await ensureFullQuranData();
+        } catch (err) {
+            console.error('Unable to load full Quran data:', err);
+            if (loadingContainer) {
+                loadingContainer.innerHTML = '<div class="loading-spinner">Unable to load Surah text right now.</div>';
+            }
+            return;
+        }
+    }
     const surahAr = quranArabic[index];
     const surahEn = quranEnglish[index];
+    updateQuranUrl(index);
 
     // Reset Audio if active and NOT requested to keep (keepAudio is true during auto-play transition)
     if (isPlaying && !keepAudio) {
@@ -354,6 +476,12 @@ function loadSurah(index, keepAudio = false, forceReload = false) {
     // Close sidebar on mobile
     const sidebar = document.getElementById('sidebar');
     if (window.innerWidth <= 768 && sidebar) sidebar.classList.remove('active');
+}
+
+function updateQuranUrl(index) {
+    if (!window.history || !window.history.replaceState) return;
+    const url = index === 0 ? '/quran.html' : `/quran/surah/${index + 1}`;
+    window.history.replaceState({}, '', url);
 }
 
 function highlightSurahInList(index) {
@@ -449,10 +577,6 @@ function setupTimers() {
     function initRamadanCountdown() {
         const { start, end } = getRamadanDates();
         if (!start || !end) return;
-
-        console.log('[Ramadan] Start:', start.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }));
-        console.log('[Ramadan] End:  ', end.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }));
-        console.log('[Ramadan] Now:  ', new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }));
 
         let ramadanInterval = null;
 
@@ -566,7 +690,6 @@ function setupTimers() {
 
     // --- Live Prayer Times via Aladhan API (IST / India) ---
     const PRAYER_NAMES = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
-    const PRAYER_IDS = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
 
     function format12h(timeStr) {
         if (!timeStr) return '';
@@ -576,13 +699,10 @@ function setupTimers() {
         return `${String(h12).padStart(2, '0')}:${String(m).padStart(2, '0')} ${ampm}`;
     }
 
-    function timeStrToDate(timeStr) {
+    function timeStrToDate(timeStr, baseDate) {
         // timeStr is "HH:MM" in IST
         const [h, m] = timeStr.split(':').map(Number);
-        const now = new Date();
-        // Build a date in IST by using UTC offset +5:30
-        const istNow = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
-        const d = new Date(istNow);
+        const d = new Date(baseDate);
         d.setHours(h, m, 0, 0);
         return d;
     }
@@ -594,7 +714,7 @@ function setupTimers() {
         let nextTime = null;
 
         for (let i = 0; i < PRAYER_NAMES.length; i++) {
-            const t = timeStrToDate(times[PRAYER_NAMES[i]]);
+            const t = timeStrToDate(times[PRAYER_NAMES[i]], nowIST);
             if (t > nowIST) {
                 nextPrayer = PRAYER_NAMES[i];
                 nextTime = t;
@@ -605,7 +725,7 @@ function setupTimers() {
         // If all prayers passed, next is Fajr tomorrow
         if (!nextPrayer) {
             nextPrayer = 'Fajr';
-            const fajrTomorrow = timeStrToDate(times['Fajr']);
+            const fajrTomorrow = timeStrToDate(times['Fajr'], nowIST);
             fajrTomorrow.setDate(fajrTomorrow.getDate() + 1);
             nextTime = fajrTomorrow;
         }
@@ -640,11 +760,11 @@ function setupTimers() {
             if (span) span.textContent = format12h(times[name]);
 
             // Highlight active prayer
-            const t = timeStrToDate(times[name]);
+            const t = timeStrToDate(times[name], nowIST);
             card.classList.remove('active');
             // Mark the most recent past prayer as active
             if (i < PRAYER_NAMES.length - 1) {
-                const next = timeStrToDate(times[PRAYER_NAMES[i + 1]]);
+                const next = timeStrToDate(times[PRAYER_NAMES[i + 1]], nowIST);
                 if (t <= nowIST && nowIST < next) card.classList.add('active');
             } else {
                 if (t <= nowIST) card.classList.add('active');
@@ -698,7 +818,6 @@ function loadRamadanCalendar() {
         }
 
         const data = RAMADAN_2026_DATA;
-        console.log('Ramadan calendar data loaded:', data.days.length, 'days found.');
 
         // Get today's date string in IST (DD Mon YYYY format to match)
         const now = new Date();
@@ -709,8 +828,6 @@ function loadRamadanCalendar() {
         const month = months[istDate.getMonth()];
         const year = istDate.getFullYear();
         const todayIST = `${day} ${month} ${year}`;
-
-        console.log('Determined today (IST):', todayIST);
 
         let todayRow = null;
         tbody.innerHTML = ''; // Clear previous/loading state
@@ -747,11 +864,9 @@ function loadRamadanCalendar() {
 
         // Scroll today's row into view smoothly
         if (todayRow) {
-            console.log('Found today row, scrolling into view.');
             setTimeout(() => {
                 todayRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }, 800);
-        } else {
         }
 
     } catch (e) {

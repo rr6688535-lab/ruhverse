@@ -1026,7 +1026,8 @@ async function handleCitySearch() {
         const data = await res.json();
 
         if (data.code === 200) {
-            renderLocationCard(city, data.data.timings);
+            const timezone = data.data && data.data.meta ? data.data.meta.timezone : null;
+            renderLocationCard(city, data.data.timings, timezone);
         } else {
             alert('City not found. Please try a major city name.');
         }
@@ -1057,8 +1058,8 @@ function syncUserLocation() {
             const prayerUrl = `https://api.aladhan.com/v1/timings/${Math.floor(Date.now() / 1000)}?latitude=${latitude}&longitude=${longitude}&method=1`;
             const prayerRes = await fetch(prayerUrl);
             const prayerData = await prayerRes.json();
-
-            renderLocationCard(cityName, prayerData.data.timings);
+            const timezone = prayerData.data && prayerData.data.meta ? prayerData.data.meta.timezone : null;
+            renderLocationCard(cityName, prayerData.data.timings, timezone);
         } catch (e) {
             alert('Detected location, but failed to fetch timings.');
         } finally {
@@ -1070,9 +1071,73 @@ function syncUserLocation() {
     });
 }
 
-function renderLocationCard(name, t) {
+function getMinutesFromTimeString(timeStr) {
+    if (!timeStr) return null;
+    const normalized = String(timeStr).trim().split(' ')[0]; // handles "05:33 (IST)"
+    const parts = normalized.split(':');
+    if (parts.length < 2) return null;
+    const h = Number(parts[0]);
+    const m = Number(parts[1]);
+    if (!Number.isFinite(h) || !Number.isFinite(m)) return null;
+    return (h * 60) + m;
+}
+
+function getNowMinutesInTimezone(timezone) {
+    try {
+        const current = new Intl.DateTimeFormat('en-GB', {
+            timeZone: timezone || Intl.DateTimeFormat().resolvedOptions().timeZone,
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false
+        }).format(new Date());
+        const [h, m] = current.split(':').map(Number);
+        if (!Number.isFinite(h) || !Number.isFinite(m)) return null;
+        return (h * 60) + m;
+    } catch (_) {
+        return null;
+    }
+}
+
+function getActivePrayerName(timings, timezone) {
+    const prayerOrder = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+    const nowMin = getNowMinutesInTimezone(timezone);
+    if (nowMin === null) return null;
+
+    const prayerMinutes = {};
+    for (const prayer of prayerOrder) {
+        prayerMinutes[prayer] = getMinutesFromTimeString(timings[prayer]);
+    }
+
+    const fajr = prayerMinutes.Fajr;
+    const dhuhr = prayerMinutes.Dhuhr;
+    const asr = prayerMinutes.Asr;
+    const maghrib = prayerMinutes.Maghrib;
+    const isha = prayerMinutes.Isha;
+
+    if ([fajr, dhuhr, asr, maghrib, isha].some(v => v === null)) return null;
+
+    if (nowMin >= isha || nowMin < fajr) return 'Isha';
+    if (nowMin >= maghrib) return 'Maghrib';
+    if (nowMin >= asr) return 'Asr';
+    if (nowMin >= dhuhr) return 'Dhuhr';
+    return 'Fajr';
+}
+
+function renderLocationCard(name, t, timezone) {
     const container = document.getElementById('dynamic-search-results');
     container.style.display = 'block';
+    const prayerOrder = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+    const activePrayer = getActivePrayerName(t, timezone);
+    const timingsHtml = prayerOrder.map((prayer) => {
+        const isActive = prayer === activePrayer;
+        const activeClass = isActive ? ' current-prayer' : '';
+        return `
+                <div class="timing-item${activeClass}">
+                    <label>${prayer.toUpperCase()}</label>
+                    <span>${t[prayer]}</span>
+                </div>
+        `;
+    }).join('');
 
     container.innerHTML = `
         <div class="featured-location-card">
@@ -1084,26 +1149,7 @@ function renderLocationCard(name, t) {
                 <div style="font-size: 2rem;">🕊️</div>
             </div>
             <div class="timings-strip">
-                <div class="timing-item">
-                    <label>Fajr</label>
-                    <span>${t.Fajr}</span>
-                </div>
-                <div class="timing-item">
-                    <label>Dhuhr</label>
-                    <span>${t.Dhuhr}</span>
-                </div>
-                <div class="timing-item" style="border-color: var(--gold);">
-                    <label>Asr</label>
-                    <span>${t.Asr}</span>
-                </div>
-                <div class="timing-item">
-                    <label>Maghrib</label>
-                    <span>${t.Maghrib}</span>
-                </div>
-                <div class="timing-item">
-                    <label>Isha</label>
-                    <span>${t.Isha}</span>
-                </div>
+                ${timingsHtml}
             </div>
             <div style="margin-top: 1.5rem; font-size: 0.8rem; opacity: 0.7; text-align: center;">
                 Times based on Islamic University, Karachi Method

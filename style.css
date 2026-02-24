@@ -1933,6 +1933,12 @@ body.dark-mode .location-intelligence-hub {
     font-size: 1.2rem;
 }
 
+.timing-item.current-prayer {
+    border-color: var(--gold);
+    background: rgba(255, 255, 255, 0.16);
+    box-shadow: 0 0 0 1px rgba(212, 175, 55, 0.35);
+}
+
 /* Intelligence Grid - Asymmetrical Glass */
 .intelligence-grid {
     display: grid;

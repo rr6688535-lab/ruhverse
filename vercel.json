@@ -8,7 +8,22 @@
   ],
   "routes": [
     {
-      "src": "/(.*)",
+      "handle": "filesystem"
+    },
+    {
+      "src": "/quran",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/quran\\.html",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/quran/surah/(\\d+)",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/api/quran-data",
       "dest": "/server.js"
     }
   ]

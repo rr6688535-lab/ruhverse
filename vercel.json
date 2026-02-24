@@ -3,27 +3,30 @@
   "builds": [
     {
       "src": "server.js",
-      "use": "@vercel/node"
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": [
+          "index.html",
+          "quran.html",
+          "terms.html",
+          "prayer-times-global.html",
+          "prayer-times-india.html",
+          "prayer-times-new-delhi.html",
+          "style.css",
+          "script.js",
+          "script_3d.js",
+          "robots.txt",
+          "sitemap.xml",
+          "google50b824ea32f5425b.html",
+          "assets/**",
+          "data/**"
+        ]
+      }
     }
   ],
   "routes": [
     {
-      "handle": "filesystem"
-    },
-    {
-      "src": "/quran",
-      "dest": "/server.js"
-    },
-    {
-      "src": "/quran\\.html",
-      "dest": "/server.js"
-    },
-    {
-      "src": "/quran/surah/(\\d+)",
-      "dest": "/server.js"
-    },
-    {
-      "src": "/api/quran-data",
+      "src": "/(.*)",
       "dest": "/server.js"
     }
   ]

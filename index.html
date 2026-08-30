@@ -18,7 +18,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RuhVerse: Read Quran Online, Prayer Times, Qibla Finder & Islamic Blog</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=2.6">
     <link rel="stylesheet" href="footer_styles.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
     <meta name="google-site-verification" content="bA13I1r9yS6hph6_rcKl0UiR_D-utehWgTTrVP28emo" />
@@ -102,58 +102,50 @@
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "How can I read Quran online on RuhVerse?",
+          "name": "How can I read Quran online with translation on RuhVerse?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Open the Quran section on RuhVerse to read the Holy Quran with English translation in a calm, distraction-free interface."
+            "text": "Open the Quran section to read Surahs with clear English translation in a calm, distraction-free layout designed for daily reflection and understanding."
           }
         },
         {
           "@type": "Question",
-          "name": "How accurate are the prayer times on RuhVerse?",
+          "name": "Are RuhVerse prayer times accurate for my city?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "RuhVerse prayer times are location-based and update with city-level calculations so Muslims can follow daily Namaz timings with confidence."
+            "text": "Yes. RuhVerse can detect your location or let you search a city to show daily Namaz timings and the next Salah countdown for better routine and punctuality."
           }
         },
         {
           "@type": "Question",
-          "name": "Can I find Qibla direction from any country?",
+          "name": "How does the RuhVerse Qibla Finder work?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. RuhVerse Qibla Finder uses live geolocation and compass direction to help you locate the direction of Makkah from anywhere in the world."
+            "text": "The Qibla Finder uses your location and compass orientation to guide you toward Makkah with a fast, mobile-friendly direction experience."
           }
         },
         {
           "@type": "Question",
-          "name": "Can I find nearby or holy mosques on RuhVerse?",
+          "name": "Does RuhVerse provide Ramadan support?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. RuhVerse shows nearby mosque options after location detection and includes a Holy Mosques section with map support for key Islamic sites."
+            "text": "RuhVerse includes Ramadan countdown support and related reminders so you can prepare your worship rhythm and fasting schedule in advance."
           }
         },
         {
           "@type": "Question",
-          "name": "Does RuhVerse include Ramadan reminders and countdown?",
+          "name": "What is included in Daily Insights?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "RuhVerse includes a Ramadan countdown and related guidance so you can prepare for fasting, prayer routines, and key Islamic dates."
+            "text": "Daily Insights offers short Islamic reflections and meaningful reminders that refresh regularly to help keep your iman focused and consistent."
           }
         },
         {
           "@type": "Question",
-          "name": "What are Daily Insights on RuhVerse?",
+          "name": "Why should I log in to RuhVerse?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Daily Insights are short reflections and beneficial Islamic facts refreshed regularly to support faith, consistency, and mindful worship."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Why create a login on RuhVerse?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Logging in helps you sync Quran bookmarks and reading progress so your spiritual journey continues seamlessly across sessions."
+            "text": "Logging in allows you to sync Quran bookmarks and reading progress, so your learning journey remains connected each time you return."
           }
         }
       ]
@@ -164,47 +156,72 @@
     <link rel="canonical" href="https://ruhverse.online/" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <link rel="dns-prefetch" href="https://unpkg.com">
+    <link rel="dns-prefetch" href="https://cdn.onesignal.com">
     <link
-        href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@300;400;500&family=Playfair+Display:wght@400;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cinzel:wght@600;700&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap"
         rel="stylesheet">
     <script>
         window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
     </script>
-    <script defer src="/_vercel/speed-insights/script.js" data-sdkn="@vercel/speed-insights/vanilla" data-sdkv="1.3.1"></script>
     <script defer src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js"></script>
     <script defer src="/onesignal-init.js?v=4"></script>
 </head>
 
 <body>
 
-    <!-- Minimal Navbar -->
-    <nav class="navbar has-mobile-menu">
-        <a href="/index.html" class="logo">
-            <img src="assets/RuhVerse.jpg" alt="RuhVerse Logo" width="40" height="40" decoding="async">
-            RuhVerse
-        </a>
-
-        <!-- Desktop Links -->
-        <ul class="nav-links">
-            <li><a href="/quran">Quran</a></li>
-            <li><a href="#prayer">Prayer</a></li>
-            <li><a href="/qibla">Qibla</a></li>
-            <li><a href="#ramadan">Ramadan</a></li>
-            <li><a href="#insights">Insights</a></li>
-            <li><a href="/blog">Blog</a></li>
-        </ul>
-
-        <div class="nav-actions">
-            <button type="button" class="premium-login-btn nav-login-desktop" data-auth-open="login" aria-controls="home-auth-modal" aria-label="Open login">
-                <span class="premium-login-sub">RuhVerse</span>
-                <span class="premium-login-main">Login</span>
-            </button>
-            <span class="moon-icon" id="night-mode-toggle">&#9790;</span> <!-- Simple representation -->
-            <div class="hamburger" id="hamburger-btn">
-                <span></span><span></span><span></span>
+    <!-- Opening Splash & Reveal Animation Overlay -->
+    <div id="site-opening-overlay" class="site-opening-overlay" aria-hidden="true">
+        <div class="opening-ambient-glow"></div>
+        <div class="opening-content">
+            <div class="opening-emblem-wrap">
+                <div class="opening-ring-outer"></div>
+                <div class="opening-ring-inner"></div>
+                <div class="opening-emblem-icon">
+                    <img src="assets/RuhVerse.jpg" alt="RuhVerse" width="76" height="76">
+                </div>
             </div>
+            <div class="opening-calligraphy">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>
+            <h1 class="opening-title">RuhVerse</h1>
+            <p class="opening-subtitle">The Serene Digital Sanctuary</p>
+            <div class="opening-shimmer-line"></div>
         </div>
-    </nav>
+    </div>
+
+    <!-- Minimal Glass Navbar -->
+    <header class="navbar-wrapper">
+        <nav class="navbar has-mobile-menu">
+            <a href="/index.html" class="logo">
+                <span class="logo-avatar-wrap">
+                    <img src="assets/RuhVerse.jpg" alt="RuhVerse Logo" width="40" height="40" decoding="async">
+                </span>
+                <span class="logo-text">RuhVerse</span>
+            </a>
+
+            <!-- Desktop Links -->
+            <ul class="nav-links">
+                <li><a href="/quran">Quran</a></li>
+                <li><a href="#prayer">Prayer</a></li>
+                <li><a href="/qibla">Qibla</a></li>
+                <li><a href="#ramadan">Ramadan</a></li>
+                <li><a href="#insights">Insights</a></li>
+                <li><a href="/blog">Blog</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <button type="button" class="premium-login-btn nav-login-desktop" data-auth-open="login" aria-controls="home-auth-modal" aria-label="Open login">
+                    <span class="premium-login-sub">RuhVerse</span>
+                    <span class="premium-login-main">Login</span>
+                </button>
+                <button type="button" class="moon-icon-btn" id="night-mode-toggle" aria-label="Toggle dark mode">&#9790;</button>
+                <div class="hamburger" id="hamburger-btn" aria-label="Open navigation menu">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
 
     <!-- Mobile Menu Overlay -->
     <div class="nav-overlay" id="nav-overlay">
@@ -225,15 +242,24 @@
         </ul>
     </div>
 
-    <!-- Centered Hero -->
+    <!-- Centered Glassmorphic Hero -->
     <section class="hero-section">
-        <div id="quran-3d-container"></div>
-        <h1 class="hero-title">Read. Reflect. Remember.</h1>
-        <p class="hero-subtitle">A calm, immersive digital experience with the Holy Quran.</p>
+        <div class="hero-ambient-glow"></div>
+        <div class="hero-content">
+            <div class="hero-kicker">
+                <span class="kicker-pulse"></span>
+                <span>The Serene Digital Sanctuary</span>
+            </div>
+            
+            <h1 class="hero-title">Read. Reflect. Remember.</h1>
+            <p class="hero-subtitle">A calm, immersive digital experience designed for mindful Quran study, precise prayer routines, and spiritual growth.</p>
 
-        <div class="hero-actions">
-            <a href="/quran" class="btn-pill btn-fill">Read Quran</a>
-            <a href="#prayer" class="btn-pill btn-outline">Prayer Times</a>
+            <div class="hero-actions">
+                <a href="/quran" class="btn-pill btn-fill hero-cta-primary">Read Quran</a>
+                <a href="#prayer" class="btn-pill btn-outline hero-cta-secondary">Prayer Times</a>
+            </div>
+
+            <div id="quran-3d-container"></div>
         </div>
     </section>
 
@@ -242,38 +268,44 @@
         <div class="container">
             <div class="about-grid">
                 <div class="about-text">
-                    <h2 class="section-title" style="text-align: left; margin-bottom: 1.5rem;">Our Mission</h2>
-                    <p class="about-p">RuhVerse is dedicated to providing a serene digital sanctuary for Muslims
-                        worldwide. Our goal is to blend modern technology with spiritual depth, making the study of the
-                        Holy Quran and the observance of Islamic practices seamless, beautiful, and accessible.</p>
-                    <p class="about-p">We believe that technology should serve the heart, fostering a deeper connection
-                        with the Creator through a calm, immersive experience.</p>
+                    <span class="section-badge">Our Purpose</span>
+                    <h2 class="section-title" style="text-align: left; margin-top: 0.5rem; margin-bottom: 1.5rem;">Sanctuary for the Soul</h2>
+                    <p class="about-p">RuhVerse is dedicated to providing a serene digital sanctuary for Muslims worldwide. Our goal is to blend modern technology with spiritual depth, making the study of the Holy Quran and the observance of Islamic practices seamless, beautiful, and accessible.</p>
+                    <p class="about-p">We believe that technology should serve the heart, fostering a deeper connection with the Creator through a calm, immersive experience.</p>
                     <p class="attribution">Made with heart by <span class="author-name">Mohd Rameez</span></p>
                 </div>
                 <div class="about-features">
-                    <div class="mini-feature">
-                        <span class="feat-icon">📖</span>
+                    <div class="mini-feature glass-card">
+                        <div class="feat-icon-wrap">
+                            <span class="feat-icon">📖</span>
+                        </div>
                         <div>
                             <h4>Immersive Reading</h4>
                             <p>Read the Quran with translations and a distraction-free 3D interface.</p>
                         </div>
                     </div>
-                    <div class="mini-feature">
-                        <span class="feat-icon">🕌</span>
+                    <div class="mini-feature glass-card">
+                        <div class="feat-icon-wrap">
+                            <span class="feat-icon">🕌</span>
+                        </div>
                         <div>
                             <h4>Prayer Timings</h4>
                             <p>Accurate, location-based prayer times with a sleek countdown.</p>
                         </div>
                     </div>
-                    <div class="mini-feature">
-                        <span class="feat-icon">🌙</span>
+                    <div class="mini-feature glass-card">
+                        <div class="feat-icon-wrap">
+                            <span class="feat-icon">🌙</span>
+                        </div>
                         <div>
                             <h4>Ramadan Hub</h4>
                             <p>A complete calendar and countdown for the blessed month.</p>
                         </div>
                     </div>
-                    <div class="mini-feature">
-                        <span class="feat-icon">✨</span>
+                    <div class="mini-feature glass-card">
+                        <div class="feat-icon-wrap">
+                            <span class="feat-icon">✨</span>
+                        </div>
                         <div>
                             <h4>Daily Insights</h4>
                             <p>Hand-picked reflections and scientific facts renewed every 24 hours.</p>
@@ -288,23 +320,26 @@
     <section id="prayer" class="prayer-section">
         <div class="container">
             <div class="prayer-header">
+                <span class="section-badge prayer-badge">Daily Salah</span>
                 <h2>Prayer Times</h2>
-                <p>Auto-detected for your location</p> <!-- Placeholder text -->
-                <p style="margin-top: 0.5rem; font-size: 0.9rem;">Next: <span id="next-prayer-name">Maghrib</span></p>
+                <p>Auto-detected for your location</p>
+                <div class="next-prayer-pill">
+                    <span>Next:</span> <strong id="next-prayer-name">Maghrib</strong>
+                </div>
             </div>
 
             <div class="large-countdown" id="prayer-countdown">Loading...</div>
 
             <div class="prayer-cards">
-                <div class="prayer-card">
+                <div class="prayer-card glass-panel">
                     <h4>Fajr</h4>
                     <span>05:48</span>
                 </div>
-                <div class="prayer-card">
+                <div class="prayer-card glass-panel">
                     <h4>Dhuhr</h4>
                     <span>12:35</span>
                 </div>
-                <div class="prayer-card">
+                <div class="prayer-card glass-panel">
                     <h4>Asr</h4>
                     <span>15:51</span>
                 </div>
@@ -312,7 +347,7 @@
                     <h4>Maghrib</h4>
                     <span>18:19</span>
                 </div>
-                <div class="prayer-card">
+                <div class="prayer-card glass-panel">
                     <h4>Isha</h4>
                     <span>19:21</span>
                 </div>
@@ -321,81 +356,76 @@
     </section>
 
     <!-- Qibla Finder Promo Section -->
-    <section class="qibla-promo-section" style="padding: 5rem 0; background: linear-gradient(180deg, var(--bg-main) 0%, rgba(26,77,46,0.06) 50%, var(--bg-main) 100%);">
-        <div class="container" style="text-align: center;">
-            <span style="font-size: 3rem; display: block; margin-bottom: 1.2rem;">🧭</span>
-            <h2 class="section-title" style="margin-bottom: 1rem;">Qibla Finder – New!</h2>
-            <p style="color: var(--text-muted); max-width: 520px; margin: 0 auto 1.2rem; font-size: 1.05rem; line-height: 1.7;">
-                Find the exact direction of Makkah from anywhere in the world — instantly. GPS-powered with a live compass and real-time mobile rotation.
-            </p>
-            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2.2rem; opacity: 0.75;">Uses the great-circle (haversine) formula · Works on all devices · 100% private</p>
-            <a href="/qibla" class="btn-pill btn-fill" style="padding: 0.9rem 2.8rem; font-size: 1rem;">Open Qibla Finder</a>
+    <section class="qibla-promo-section">
+        <div class="container">
+            <div class="qibla-showcase-card glass-panel">
+                <div class="qibla-icon-badge">
+                    <span>🧭</span>
+                </div>
+                <span class="section-badge">Live Direction</span>
+                <h2 class="section-title" style="margin-top: 0.5rem; margin-bottom: 0.8rem;">Qibla Finder Online</h2>
+                <p class="qibla-desc">
+                    Find the exact direction of Makkah from anywhere in the world — instantly. GPS-powered with a live compass and real-time mobile rotation.
+                </p>
+                <p class="qibla-subdesc">Uses the great-circle (haversine) formula &middot; Works on all devices &middot; 100% private</p>
+                <a href="/qibla" class="btn-pill btn-fill qibla-cta-btn">Open Qibla Finder</a>
+            </div>
         </div>
     </section>
 
     <!-- Ramadan Countdown Section -->
     <section id="ramadan" class="ramadan-countdown-section">
         <div class="container">
-            <h2 class="section-title">Ramadan Countdown</h2>
-            <p class="ramadan-subtitle" style="color: rgba(255,255,255,0.7); margin-top: -2rem; margin-bottom: 3rem;">
-                Counting down to the most
-                blessed month of the year.</p>
+            <span class="section-badge">Holy Month</span>
+            <h2 class="section-title" style="margin-top: 0.5rem; margin-bottom: 0.8rem;">Ramadan Countdown</h2>
+            <p class="ramadan-subtitle">Counting down to the most blessed month of the year.</p>
+            
             <div class="ramadan-grid">
-                <div class="timer-card">
+                <div class="timer-card glass-panel">
                     <h3 id="ram-days">00</h3>
                     <p>Days</p>
                 </div>
-                <div class="timer-card">
+                <div class="timer-card glass-panel">
                     <h3 id="ram-hrs">00</h3>
                     <p>Hours</p>
                 </div>
-                <div class="timer-card">
+                <div class="timer-card glass-panel">
                     <h3 id="ram-min">00</h3>
                     <p>Minutes</p>
                 </div>
-                <div class="timer-card">
+                <div class="timer-card glass-panel">
                     <h3 id="ram-sec">00</h3>
                     <p>Seconds</p>
                 </div>
             </div>
-            <a href="/how-to-pray-eid-salah" class="eid-salah-promo" id="eid-salah-promo"
+
+            <a href="/how-to-pray-eid-salah" class="eid-salah-promo glass-panel" id="eid-salah-promo"
                 title="How to Pray Eid Salah Step by Step (Authentic Hadith Guide)"
                 aria-label="Read the blog: How to Pray Eid Salah step by step with takbeer, rak'ahs, and khutbah">
                 <span class="eid-promo-tag">Eid Salah Guide</span>
                 <h3>How to Pray Eid Salah: Step-by-Step Sunnah Guide</h3>
                 <p id="eid-promo-text">There are only <strong id="eid-days-left">00</strong> days left for Eid al-Fitr.
                     Learn the correct Eid Salah method with authentic Hadith before Eid day.</p>
-                <span class="eid-promo-cta">Read the full Eid Salah guide</span>
+                <span class="eid-promo-cta">Read the full Eid Salah guide &rarr;</span>
             </a>
         </div>
     </section>
 
-    <!-- Ramadan Calendar section removed for performance (kept in sitemap) -->
-
     <!-- Global Prayer Intelligence Hub -->
-    <section id="global-directory" class="location-intelligence-hub" style="padding: 12rem 0 10rem;">
-        <!-- Decorative Glow Patterns -->
-        <div
-            style="position: absolute; top: 10%; left: -10%; width: 40%; height: 60%; background: radial-gradient(circle, rgba(26, 77, 46, 0.04) 0%, transparent 70%); pointer-events: none;">
-        </div>
-        <div
-            style="position: absolute; bottom: 0; right: -5%; width: 30%; height: 50%; background: radial-gradient(circle, rgba(212, 175, 55, 0.04) 0%, transparent 70%); pointer-events: none;">
-        </div>
-
+    <section id="global-directory" class="location-intelligence-hub">
         <div class="container">
-            <div class="insights-header" style="text-align: center; margin-bottom: 6rem;">
-                <h2 class="section-title" style="font-size: clamp(2.5rem, 5vw, 3.8rem); line-height: 1.1;">Global Prayer
-                    Intelligence</h2>
-                <p
-                    style="color: var(--text-muted); max-width: 650px; margin: 0 auto; font-size: 1.15rem; line-height: 1.6; opacity: 0.8;">
-                    Sync your spiritual clock with precision. Type any city worldwide or utilize our localized regional
-                    hubs.</p>
+            <div class="insights-header" style="text-align: center; margin-bottom: 4rem;">
+                <span class="section-badge">Worldwide Network</span>
+                <h2 class="section-title" style="margin-top: 0.5rem; margin-bottom: 0.8rem; font-size: clamp(2.3rem, 5vw, 3.6rem); line-height: 1.15;">Global Prayer Intelligence</h2>
+                <p style="color: var(--text-muted); max-width: 650px; margin: 0 auto; font-size: 1.1rem; line-height: 1.6;">
+                    Sync your spiritual clock with precision. Type any city worldwide or utilize our localized regional hubs.
+                </p>
             </div>
 
             <!-- Search Nexus -->
-            <div class="search-nexus">
+            <div class="search-nexus glass-panel">
                 <div class="unified-search-box">
-                    <input type="text" id="city-search-input" placeholder="e.g. London, Dubai, New York..."
+                    <input type="text" id="city-search-input" placeholder="e.g. London, Dubai, New York, Delhi..."
                         aria-label="Search city for prayer times">
                     <button class="search-trigger" id="city-search-btn">
                         <span>Search City</span>
@@ -411,23 +441,25 @@
             <div id="dynamic-search-results" class="dynamic-result-area">
                 <!-- Golden card injected here by JS -->
             </div>
+
             <section class="holy-mosques-seo" aria-labelledby="holy-mosques-title">
                 <div class="holy-mosques-head">
-                    <h3 id="holy-mosques-title">Holy Mosques of Islam</h3>
+                    <span class="section-badge">Sacred Sites</span>
+                    <h3 id="holy-mosques-title" style="margin-top: 0.5rem;">Holy Mosques of Islam</h3>
                     <p>Explore the most revered mosques in Islam with location context and maps.</p>
                 </div>
                 <div class="holy-mosques-grid">
-                    <article class="holy-mosque-card">
+                    <article class="holy-mosque-card glass-panel">
                         <h4>Masjid al-Haram, Makkah</h4>
                         <p>The holiest mosque in Islam and home of the Kaaba, the Qibla for Muslims worldwide.</p>
                         <div class="holy-mosque-map" id="holy-mosque-map-haram" data-lat="21.4225" data-lon="39.8262" data-label="Masjid al-Haram"></div>
                     </article>
-                    <article class="holy-mosque-card">
+                    <article class="holy-mosque-card glass-panel">
                         <h4>Al-Masjid an-Nabawi, Madinah</h4>
                         <p>The Prophet's Mosque, one of the three mosques to which Muslims are encouraged to travel.</p>
                         <div class="holy-mosque-map" id="holy-mosque-map-nabawi" data-lat="24.4672" data-lon="39.6111" data-label="Al-Masjid an-Nabawi"></div>
                     </article>
-                    <article class="holy-mosque-card">
+                    <article class="holy-mosque-card glass-panel">
                         <h4>Al-Aqsa Mosque, Jerusalem</h4>
                         <p>Islam's third holiest site and the blessed sanctuary linked to Al-Isra wal-Mi'raj.</p>
                         <div class="holy-mosque-map" id="holy-mosque-map-aqsa" data-lat="31.7767" data-lon="35.2354" data-label="Al-Aqsa Mosque"></div>
@@ -437,120 +469,120 @@
 
             <div class="directory-container">
                 <div class="directory-group">
-                    <h3 class="group-title">🌍 Strategic Hubs</h3>
+                    <h3 class="group-title">🌍 Global Islamic Hubs</h3>
                     <div class="intelligence-grid global-hubs-grid">
-                        <a href="/prayer-times-india.html" class="intel-card hub-card hub-card--india">
-                            <span class="hub-label">South Asia Core</span>
+                        <a href="/prayer-times-india.html" class="intel-card hub-card hub-card--india glass-panel">
+                            <span class="hub-label">South Asia</span>
                             <span class="intel-icon">🇮🇳</span>
-                            <h4>India Network</h4>
-                            <p>Delhi to Srinagar coverage with city-level Ramadan charts and fast city routes.</p>
-                            <div class="hub-meta">Priority Cities: Delhi, Mumbai, Hyderabad</div>
+                            <h4>India & South Asia</h4>
+                            <p>Accurate Namaz timings, Sehri and Iftar charts for Delhi, Mumbai, Hyderabad, Srinagar, and nationwide cities.</p>
+                            <div class="hub-meta">Major Cities: Delhi, Mumbai, Hyderabad, Srinagar</div>
                         </a>
 
-                        <a href="/namaz-times/jakarta" class="intel-card hub-card hub-card--seasia">
-                            <span class="hub-label">SEA Pulse</span>
+                        <a href="/namaz-times/jakarta" class="intel-card hub-card hub-card--seasia glass-panel">
+                            <span class="hub-label">Indonesia & Malaysia</span>
                             <span class="intel-icon">🇮🇩</span>
-                            <h4>Jakarta Corridor</h4>
-                            <p>Southeast Asia flow tuned for timezone-specific Fajr, Zohr, Asr, Magrib, and Isha.</p>
-                            <div class="hub-meta">Also Active: Bandung, Surabaya, Kuala Lumpur</div>
+                            <h4>Southeast Asia</h4>
+                            <p>Daily prayer schedules and local calculation methods for Jakarta, Kuala Lumpur, Surabaya, and Bandung.</p>
+                            <div class="hub-meta">Key Cities: Jakarta, Kuala Lumpur, Surabaya, Bandung</div>
                         </a>
 
-                        <a href="/namaz-times/mecca" class="intel-card hub-card hub-card--haramain">
-                            <span class="hub-label">Holy Cities</span>
+                        <a href="/namaz-times/mecca" class="intel-card hub-card hub-card--haramain glass-panel">
+                            <span class="hub-label">Saudi Arabia</span>
                             <span class="intel-icon">🕋</span>
-                            <h4>Haramain Compass</h4>
-                            <p>Makkah and Madinah anchor routes designed for pilgrims, Umrah traffic, and seasonal peaks.</p>
-                            <div class="hub-meta">Pilgrim Focus: Makkah, Madinah, Jeddah</div>
+                            <h4>Makkah & Madinah</h4>
+                            <p>Accurate prayer times and Qibla schedules for pilgrims, residents, and visitors in the Holy Sanctuaries.</p>
+                            <div class="hub-meta">Holy Sanctuaries: Makkah, Madinah, Jeddah, Riyadh</div>
                         </a>
 
-                        <a href="/namaz-times/dubai" class="intel-card hub-card hub-card--gulf">
-                            <span class="hub-label">GCC Grid</span>
+                        <a href="/namaz-times/dubai" class="intel-card hub-card hub-card--gulf glass-panel">
+                            <span class="hub-label">Middle East</span>
                             <span class="intel-icon">🏙️</span>
-                            <h4>Gulf Metro Belt</h4>
-                            <p>Urban prayer schedules for UAE and Gulf hubs used by commuters and expat communities.</p>
-                            <div class="hub-meta">Fast Lanes: Dubai, Doha, Kuwait City</div>
+                            <h4>UAE & Gulf Region</h4>
+                            <p>Daily prayer timings and Ramadan calendars for Dubai, Abu Dhabi, Doha, Kuwait City, and the Gulf.</p>
+                            <div class="hub-meta">Key Hubs: Dubai, Abu Dhabi, Doha, Kuwait City</div>
                         </a>
 
-                        <a href="/namaz-times/london" class="intel-card hub-card hub-card--europe">
-                            <span class="hub-label">Europe Mix</span>
+                        <a href="/namaz-times/london" class="intel-card hub-card hub-card--europe glass-panel">
+                            <span class="hub-label">UK & Europe</span>
                             <span class="intel-icon">🇬🇧</span>
-                            <h4>London Gateway</h4>
-                            <p>European day-length variation handling with clean routing across UK and continental cities.</p>
-                            <div class="hub-meta">Expansion: Birmingham, Paris, Berlin</div>
+                            <h4>United Kingdom & Europe</h4>
+                            <p>High-latitude prayer time calculations and seasonal timetables for London, Birmingham, Paris, and Berlin.</p>
+                            <div class="hub-meta">Featured Cities: London, Birmingham, Manchester, Paris</div>
                         </a>
 
-                        <a href="/namaz-times/new-york" class="intel-card hub-card hub-card--na">
+                        <a href="/namaz-times/new-york" class="intel-card hub-card hub-card--na glass-panel">
                             <span class="hub-label">North America</span>
                             <span class="intel-icon">🇺🇸</span>
-                            <h4>US City Spine</h4>
-                            <p>Cross-timezone stack from East Coast to West Coast with metro-by-metro targeting.</p>
-                            <div class="hub-meta">Major Nodes: NYC, Chicago, Los Angeles</div>
+                            <h4>United States & Canada</h4>
+                            <p>Daily Salah timings and Ramadan timetables across all US and Canadian timezones.</p>
+                            <div class="hub-meta">Featured Cities: New York, Chicago, Los Angeles, Toronto</div>
                         </a>
                     </div>
                 </div>
             </div>
 
-            <div style="margin-top: 6rem; text-align: center;">
-                <a href="prayer-times-global.html" class="btn-pill btn-fill" style="padding: 1.2rem 3rem;">Explore
-                    Global Map</a>
+            <div style="margin-top: 4.5rem; text-align: center;">
+                <a href="prayer-times-global.html" class="btn-pill btn-fill" style="padding: 1rem 2.8rem;">Explore Global Map</a>
             </div>
         </div>
     </section>
 
     <!-- Insights Section -->
-    <section id="insights" class="prayer-section">
+    <section id="insights" class="prayer-section insights-section">
         <div class="container">
             <div class="insights-header">
-                <h2 class="section-title">Daily Insights</h2>
-                <p style="color: rgba(255,255,255,0.7); margin-top: -2rem; margin-bottom: 3rem;">Reflections and facts,
-                    renewed every 24 hours.</p>
+                <span class="section-badge">Daily Reflection</span>
+                <h2 class="section-title" style="margin-top: 0.5rem; margin-bottom: 0.8rem;">Daily Insights</h2>
+                <p class="insights-subtitle">Reflections and facts, renewed every 24 hours.</p>
             </div>
 
             <div class="insights-slider-wrapper">
-                <button class="slider-arrow prev" id="ins-prev">&#10094;</button>
+                <button class="slider-arrow prev" id="ins-prev" aria-label="Previous insight">&#10094;</button>
                 <div class="insights-slider-container">
                     <div class="insights-slider" id="insights-track">
                         <!-- Dynamic cards will be injected here -->
                     </div>
                 </div>
-                <button class="slider-arrow next" id="ins-next">&#10095;</button>
+                <button class="slider-arrow next" id="ins-next" aria-label="Next insight">&#10095;</button>
             </div>
 
-            <!-- Optional: Navigation dots -->
+            <!-- Navigation dots -->
             <div class="slider-nav" id="slider-nav"></div>
         </div>
     </section>
 
+    <!-- FAQ Section -->
     <section id="faq" class="faq-section">
         <div class="container">
             <div class="faq-shell">
                 <div class="faq-header">
-                    <p class="faq-overline">RuhVerse Guidance</p>
-                    <h2 class="section-title">Faith Questions, Clear Answers</h2>
+                    <span class="section-badge">RuhVerse Guidance</span>
+                    <h2 class="section-title faq-title">Faith Questions, Clear Answers</h2>
                     <p class="faq-subtitle">Everything essential about Quran reading, prayer times, Qibla direction, Ramadan preparation, and daily spiritual consistency on RuhVerse.</p>
                 </div>
                 <div class="faq-grid">
-                    <details class="faq-item" open>
+                    <details class="faq-item glass-panel" open>
                         <summary>How can I read Quran online with translation on RuhVerse?</summary>
                         <p>Open the Quran section to read Surahs with clear English translation in a calm, distraction-free layout designed for daily reflection and understanding.</p>
                     </details>
-                    <details class="faq-item">
+                    <details class="faq-item glass-panel">
                         <summary>Are RuhVerse prayer times accurate for my city?</summary>
                         <p>Yes. RuhVerse can detect your location or let you search a city to show daily Namaz timings and the next Salah countdown for better routine and punctuality.</p>
                     </details>
-                    <details class="faq-item">
+                    <details class="faq-item glass-panel">
                         <summary>How does the RuhVerse Qibla Finder work?</summary>
                         <p>The Qibla Finder uses your location and compass orientation to guide you toward Makkah with a fast, mobile-friendly direction experience.</p>
                     </details>
-                    <details class="faq-item">
+                    <details class="faq-item glass-panel">
                         <summary>Does RuhVerse provide Ramadan support?</summary>
                         <p>RuhVerse includes Ramadan countdown support and related reminders so you can prepare your worship rhythm and fasting schedule in advance.</p>
                     </details>
-                    <details class="faq-item">
+                    <details class="faq-item glass-panel">
                         <summary>What is included in Daily Insights?</summary>
                         <p>Daily Insights offers short Islamic reflections and meaningful reminders that refresh regularly to help keep your iman focused and consistent.</p>
                     </details>
-                    <details class="faq-item">
+                    <details class="faq-item glass-panel">
                         <summary>Why should I log in to RuhVerse?</summary>
                         <p>Logging in allows you to sync Quran bookmarks and reading progress, so your learning journey remains connected each time you return.</p>
                     </details>
@@ -559,8 +591,9 @@
         </div>
     </section>
 
+    <!-- Auth Modal -->
     <div class="modal home-auth-modal" id="home-auth-modal" aria-hidden="true">
-        <div class="modal-content home-auth-content">
+        <div class="modal-content home-auth-content glass-panel">
             <button type="button" class="home-auth-close" id="home-auth-close" aria-label="Close login dialog">&times;</button>
             <p class="home-auth-tag">RuhVerse Member Access</p>
             <h3 id="home-auth-title">Login to Continue Your Journey</h3>
@@ -583,12 +616,11 @@
     <!-- Footer Section -->
     <div data-ruhverse-footer></div>
     <script defer src="/footer-common.js"></script>
-
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script defer src="/script_3d.js"></script>
+    <script defer src="/script_3d.js?v=2.4"></script>
     <script defer src="/data/insights.js"></script>
     <script defer src="/theme.js"></script>
-    <script defer src="/script.js"></script>
+    <script defer src="/script.js?v=2.4"></script>
     <!-- Vercel Analytics -->
     <script defer src="/_vercel/insights/script.js"></script>
     <script defer src="/pwa.js?v=6"></script>

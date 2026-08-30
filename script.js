@@ -31,6 +31,7 @@ function initApp() {
         }
 
         try {
+            setupOpeningAnimation();
             setupNavigation();
             setupHomeAuth();
             setupTimers();
@@ -908,6 +909,31 @@ function setupQuranViewControls() {
     };
 }
 
+// --- Opening Splash Animation ---
+function setupOpeningAnimation() {
+    const overlay = document.getElementById('site-opening-overlay');
+    if (!overlay) return;
+
+    const dismissOverlay = () => {
+        if (!overlay || overlay.classList.contains('dismissed')) return;
+        overlay.classList.add('dismissed');
+        setTimeout(() => {
+            if (overlay && overlay.parentNode) {
+                overlay.remove();
+            }
+        }, 900);
+    };
+
+    // Auto-dismiss after 2s
+    const timer = setTimeout(dismissOverlay, 2000);
+
+    // Instant skip on tap/click
+    overlay.addEventListener('click', () => {
+        clearTimeout(timer);
+        dismissOverlay();
+    });
+}
+
 // --- Shared (Home) Logic ---
 // Handles home navigation overlay open/close behavior.
 function setupNavigation() {
@@ -932,6 +958,7 @@ function setupHomeAuth() {
     if (!modal) return;
 
     const tokenKey = 'ruhverse_auth_token';
+    const userKey = 'ruhverse_auth_user';
     const openers = Array.from(document.querySelectorAll('[data-auth-open]'));
     const closeBtn = document.getElementById('home-auth-close');
     const titleEl = document.getElementById('home-auth-title');
@@ -948,8 +975,18 @@ function setupHomeAuth() {
 
     const state = {
         mode: 'login',
+        currentUser: null,
         toastTimer: 0
     };
+
+    // Immediately restore cached user state to eliminate layout flash
+    const cachedUserRaw = localStorage.getItem(userKey);
+    if (cachedUserRaw) {
+        try {
+            state.currentUser = JSON.parse(cachedUserRaw);
+            setLoginButtonState(state.currentUser);
+        } catch (_) {}
+    }
 
     function setError(message) {
         if (errorEl) errorEl.textContent = String(message || '');
@@ -967,8 +1004,10 @@ function setupHomeAuth() {
     }
 
     function setMode(nextMode) {
-        state.mode = nextMode === 'register' ? 'register' : 'login';
+        state.mode = nextMode;
         const isRegister = state.mode === 'register';
+        const isAccount = state.mode === 'account';
+
         if (usernameInput) {
             usernameInput.hidden = !isRegister;
             usernameInput.style.display = isRegister ? '' : 'none';
@@ -976,7 +1015,25 @@ function setupHomeAuth() {
             usernameInput.disabled = !isRegister;
             if (!isRegister) usernameInput.value = '';
         }
-        if (isRegister) {
+        if (emailInput) {
+            emailInput.hidden = isAccount;
+            emailInput.style.display = isAccount ? 'none' : '';
+            emailInput.required = !isAccount;
+        }
+        if (passwordInput) {
+            passwordInput.hidden = isAccount;
+            passwordInput.style.display = isAccount ? 'none' : '';
+            passwordInput.required = !isAccount;
+        }
+
+        if (isAccount) {
+            const userLabel = state.currentUser?.username || state.currentUser?.email || 'Member';
+            if (titleEl) titleEl.textContent = 'Your RuhVerse Account';
+            if (hintEl) hintEl.textContent = `Signed in as ${userLabel}. Quran bookmarks and reading progress are synced.`;
+            if (submitBtn) submitBtn.textContent = 'Log Out';
+            if (switchHint) switchHint.textContent = 'Saved verses & notes?';
+            if (switchBtn) switchBtn.textContent = 'Open Quran';
+        } else if (isRegister) {
             if (titleEl) titleEl.textContent = 'Create Your RuhVerse Account';
             if (hintEl) hintEl.textContent = 'Register once to save Quran bookmarks. You must verify your email before login.';
             if (submitBtn) submitBtn.textContent = 'Create Account';
@@ -998,7 +1055,7 @@ function setupHomeAuth() {
         modal.setAttribute('aria-hidden', 'false');
         document.body.classList.add('modal-open');
         window.setTimeout(() => {
-            if (emailInput) emailInput.focus();
+            if (state.mode === 'login' && emailInput) emailInput.focus();
         }, 20);
     }
 
@@ -1036,7 +1093,9 @@ function setupHomeAuth() {
         }
         const data = await response.json().catch(() => null);
         if (!response.ok) {
-            throw new Error(data?.error || `Request failed (${response.status})`);
+            const err = new Error(data?.error || `Request failed (${response.status})`);
+            err.status = response.status;
+            throw err;
         }
         return data;
     }
@@ -1047,7 +1106,9 @@ function setupHomeAuth() {
         });
         const data = await response.json().catch(() => null);
         if (!response.ok) {
-            throw new Error(data?.error || `Request failed (${response.status})`);
+            const err = new Error(data?.error || `Request failed (${response.status})`);
+            err.status = response.status;
+            throw err;
         }
         return data;
     }
@@ -1088,27 +1149,48 @@ function setupHomeAuth() {
     async function bootstrapSession() {
         const token = localStorage.getItem(tokenKey);
         if (!token) {
+            state.currentUser = null;
+            localStorage.removeItem(userKey);
             setLoginButtonState(null);
             return;
         }
         try {
             const me = await meRequest(token);
-            setLoginButtonState(me?.user || null);
-        } catch (_) {
-            localStorage.removeItem(tokenKey);
-            setLoginButtonState(null);
+            if (me?.user) {
+                state.currentUser = me.user;
+                localStorage.setItem(userKey, JSON.stringify(me.user));
+                setLoginButtonState(me.user);
+            }
+        } catch (err) {
+            // ONLY clear session if server explicitly rejects with 401 or 403
+            const status = Number(err?.status);
+            const msg = String(err?.message || '');
+            if (status === 401 || status === 403 || /401|403|unauthorized|invalid session/i.test(msg)) {
+                localStorage.removeItem(tokenKey);
+                localStorage.removeItem(userKey);
+                state.currentUser = null;
+                setLoginButtonState(null);
+            }
         }
     }
 
     openers.forEach((btn) => {
         btn.addEventListener('click', (event) => {
             event.preventDefault();
-            openModal('login');
+            if (state.currentUser) {
+                openModal('account');
+            } else {
+                openModal('login');
+            }
         });
     });
 
     if (switchBtn) {
         switchBtn.addEventListener('click', () => {
+            if (state.mode === 'account') {
+                window.location.href = '/quran';
+                return;
+            }
             setMode(state.mode === 'login' ? 'register' : 'login');
         });
     }
@@ -1131,6 +1213,18 @@ function setupHomeAuth() {
         form.addEventListener('submit', async (event) => {
             event.preventDefault();
             setError('');
+
+            // Handle manual Log Out
+            if (state.mode === 'account') {
+                localStorage.removeItem(tokenKey);
+                localStorage.removeItem(userKey);
+                state.currentUser = null;
+                setLoginButtonState(null);
+                closeModal();
+                showToast('Logged out successfully.');
+                return;
+            }
+
             const email = String(emailInput?.value || '').trim();
             const password = String(passwordInput?.value || '');
             const username = String(usernameInput?.value || '').trim();
@@ -1160,7 +1254,10 @@ function setupHomeAuth() {
                     }
                     if (result?.token) {
                         localStorage.setItem(tokenKey, result.token);
-                        setLoginButtonState(result?.user || { username, email });
+                        const userObj = result?.user || { username, email };
+                        state.currentUser = userObj;
+                        localStorage.setItem(userKey, JSON.stringify(userObj));
+                        setLoginButtonState(userObj);
                         closeModal();
                         showToast(result?.message || 'Account created and login successful.');
                         return;
@@ -1175,7 +1272,10 @@ function setupHomeAuth() {
                 }
 
                 localStorage.setItem(tokenKey, result.token);
-                setLoginButtonState(result?.user || { username, email });
+                const userObj = result?.user || { username, email };
+                state.currentUser = userObj;
+                localStorage.setItem(userKey, JSON.stringify(userObj));
+                setLoginButtonState(userObj);
                 closeModal();
                 showToast('Login successful.');
             } catch (error) {
@@ -1214,7 +1314,7 @@ function setupHomeAuth() {
     }
 
     bootstrapSession().catch(() => {
-        setLoginButtonState(null);
+        // Leave existing cached state alone if any
     });
 
     const params = new URLSearchParams(window.location.search);
@@ -1865,9 +1965,15 @@ function renderNearbyMosqueSection(title, subtitle, items) {
     `;
 }
 
+const OVERPASS_ENDPOINTS = [
+    'https://overpass-api.de/api/interpreter',
+    'https://overpass.kumi.systems/api/interpreter',
+    'https://maps.mail.ru/osm/tools/overpass/api/interpreter'
+];
+
 async function fetchNearbyMosques(latitude, longitude, limit = NEARBY_MOSQUE_LIMIT) {
     const query = `
-[out:json][timeout:25];
+[out:json][timeout:15];
 (
   node(around:${NEARBY_MOSQUE_RADIUS_METERS},${latitude},${longitude})["amenity"="mosque"];
   way(around:${NEARBY_MOSQUE_RADIUS_METERS},${latitude},${longitude})["amenity"="mosque"];
@@ -1879,42 +1985,57 @@ async function fetchNearbyMosques(latitude, longitude, limit = NEARBY_MOSQUE_LIM
 out center tags;
     `.trim();
 
-    const response = await fetch('https://overpass-api.de/api/interpreter', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
-        body: `data=${encodeURIComponent(query)}`
-    });
-    if (!response.ok) {
-        throw new Error(`Overpass failed with status ${response.status}`);
+    let lastError = null;
+    for (const endpoint of OVERPASS_ENDPOINTS) {
+        try {
+            const controller = new AbortController();
+            const timer = setTimeout(() => controller.abort(), 8000);
+            const response = await fetch(endpoint, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+                body: `data=${encodeURIComponent(query)}`,
+                signal: controller.signal
+            });
+            clearTimeout(timer);
+            if (!response.ok) continue;
+
+            const contentType = response.headers.get('content-type') || '';
+            if (!contentType.includes('json')) continue;
+
+            const data = await response.json();
+            const elements = Array.isArray(data.elements) ? data.elements : [];
+            const seen = new Set();
+            const normalized = [];
+
+            for (const element of elements) {
+                const pointLat = Number(element.lat ?? element.center?.lat);
+                const pointLon = Number(element.lon ?? element.center?.lon);
+                if (!Number.isFinite(pointLat) || !Number.isFinite(pointLon)) continue;
+
+                const distanceKm = calculateDistanceKm(latitude, longitude, pointLat, pointLon);
+                if (!Number.isFinite(distanceKm) || distanceKm > (NEARBY_MOSQUE_RADIUS_METERS / 1000)) continue;
+
+                const name = (element.tags && element.tags.name) ? String(element.tags.name).trim() : 'Local Mosque';
+                const key = `${name.toLowerCase()}|${pointLat.toFixed(4)}|${pointLon.toFixed(4)}`;
+                if (seen.has(key)) continue;
+                seen.add(key);
+
+                normalized.push({
+                    name,
+                    distanceKm,
+                    note: `${distanceKm.toFixed(1)} km away`
+                });
+            }
+
+            normalized.sort((a, b) => a.distanceKm - b.distanceKm);
+            return normalized.slice(0, limit);
+        } catch (err) {
+            lastError = err;
+        }
     }
 
-    const data = await response.json();
-    const elements = Array.isArray(data.elements) ? data.elements : [];
-    const seen = new Set();
-    const normalized = [];
-
-    for (const element of elements) {
-        const pointLat = Number(element.lat ?? element.center?.lat);
-        const pointLon = Number(element.lon ?? element.center?.lon);
-        if (!Number.isFinite(pointLat) || !Number.isFinite(pointLon)) continue;
-
-        const distanceKm = calculateDistanceKm(latitude, longitude, pointLat, pointLon);
-        if (!Number.isFinite(distanceKm) || distanceKm > (NEARBY_MOSQUE_RADIUS_METERS / 1000)) continue;
-
-        const name = (element.tags && element.tags.name) ? String(element.tags.name).trim() : 'Nearby Mosque';
-        const key = `${name.toLowerCase()}|${pointLat.toFixed(4)}|${pointLon.toFixed(4)}`;
-        if (seen.has(key)) continue;
-        seen.add(key);
-
-        normalized.push({
-            name,
-            distanceKm,
-            note: `${distanceKm.toFixed(1)} km away`
-        });
-    }
-
-    normalized.sort((a, b) => a.distanceKm - b.distanceKm);
-    return normalized.slice(0, limit);
+    if (lastError) console.warn('Overpass lookup notice:', lastError);
+    return [];
 }
 
 // Queries city timings by city name and renders quick location card.
@@ -1929,13 +2050,37 @@ async function handleCitySearch() {
     btn.disabled = true;
 
     try {
-        const url = `https://api.aladhan.com/v1/timingsByCity?city=${city}&country=&method=1`;
+        const url = `https://api.aladhan.com/v1/timingsByCity?city=${encodeURIComponent(city)}&country=&method=1`;
         const res = await fetch(url);
         const data = await res.json();
 
         if (data.code === 200) {
-            const timezone = data.data && data.data.meta ? data.data.meta.timezone : null;
-            renderLocationCard(city, data.data.timings, timezone);
+            const meta = data.data && data.data.meta ? data.data.meta : {};
+            const timezone = meta.timezone || null;
+            const lat = Number(meta.latitude);
+            const lon = Number(meta.longitude);
+            let mosqueSectionHtml = '';
+            if (Number.isFinite(lat) && Number.isFinite(lon)) {
+                try {
+                    const nearbyMosques = await fetchNearbyMosques(lat, lon);
+                    if (nearbyMosques && nearbyMosques.length) {
+                        mosqueSectionHtml = renderNearbyMosqueSection(
+                            `Nearby Mosques in ${city} (Within 10 km)`,
+                            `Showing ${nearbyMosques.length} verified mosque${nearbyMosques.length === 1 ? '' : 's'} near ${city}.`,
+                            nearbyMosques
+                        );
+                    } else {
+                        mosqueSectionHtml = renderNearbyMosqueSection(
+                            'Holy Mosques in Islam',
+                            `No local data for ${city}, showing globally revered sanctuaries.`,
+                            HOLY_MOSQUES_FALLBACK
+                        );
+                    }
+                } catch (mErr) {
+                    console.warn('City mosque fetch notice:', mErr);
+                }
+            }
+            renderLocationCard(city, data.data.timings, timezone, mosqueSectionHtml);
         } else {
             alert('City not found. Please try a major city name.');
         }
@@ -2089,7 +2234,7 @@ function renderLocationCard(name, t, timezone, mosqueSectionHtml = '') {
             <div class="loc-header">
                 <div>
                     <span style="text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; opacity: 0.8;">Active Location</span>
-                    <h2>${name}</h2>
+                    <h2>${escapeHtmlText(name)}</h2>
                 </div>
                 <div style="font-size: 2rem;">🕊️</div>
             </div>

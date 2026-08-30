@@ -414,12 +414,25 @@
       return;
     }
 
+    const cachedUser = localStorage.getItem('ruhverse_auth_user');
+    if (cachedUser) {
+      try {
+        state.user = JSON.parse(cachedUser);
+      } catch (_) {}
+    }
+
     try {
       const me = await apiRequest('/api/auth/me');
-      state.user = me.user || null;
+      if (me && me.user) {
+        state.user = me.user;
+        localStorage.setItem('ruhverse_auth_user', JSON.stringify(me.user));
+      }
       await fetchBookmarks();
-    } catch (_) {
-      logout();
+    } catch (err) {
+      const msg = String(err?.message || '');
+      if (/401|403|unauthorized|invalid session/i.test(msg)) {
+        logout();
+      }
     }
   }
 
@@ -442,6 +455,9 @@
     state.token = data.token || '';
     state.user = data.user || null;
     persistToken();
+    if (state.user) {
+      localStorage.setItem('ruhverse_auth_user', JSON.stringify(state.user));
+    }
     await fetchBookmarks();
     updateAuthUi();
     renderBookmarksPanel();
@@ -454,6 +470,7 @@
     state.bookmarks = [];
     state.token = '';
     localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem('ruhverse_auth_user');
     updateAuthUi();
     renderBookmarksPanel();
     syncBookmarkButtons();

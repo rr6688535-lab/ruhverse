@@ -2723,6 +2723,12 @@ function getBlogSitemapUrls() {
       changefreq: 'monthly',
       priority: '0.67',
       lastmod: getFileSitemapLastMod(resolveBlogFilePath('missing-fajr.html'))
+    },
+    {
+      loc: `${PUBLIC_BASE_URL}/how-to-forgive-someone-in-islam`,
+      changefreq: 'monthly',
+      priority: '0.67',
+      lastmod: getFileSitemapLastMod(resolveBlogFilePath('forgive-someone.html'))
     }
   ];
 }
@@ -3080,6 +3086,21 @@ app.get([
 ], (req, res) => {
   if (redirectToCanonicalIfNeeded(req, res, '/missing-fajr')) return;
   sendBlogPage(res, 'missing-fajr.html');
+});
+
+app.get([
+  '/how-to-forgive-someone-in-islam',
+  '/how-to-forgive-someone-in-islam/',
+  '/how-to-forgive-someone-in-islam.html',
+  '/forgive-someone',
+  '/forgive-someone/',
+  '/forgive-someone.html',
+  '/how-to-forgive-someone',
+  '/how-to-forgive-someone/',
+  '/how-to-forgive-someone.html'
+], (req, res) => {
+  if (redirectToCanonicalIfNeeded(req, res, '/how-to-forgive-someone-in-islam')) return;
+  sendBlogPage(res, 'forgive-someone.html');
 });
 
 app.get('/prayer-times-city.html', (req, res) => {

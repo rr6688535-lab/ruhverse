@@ -171,7 +171,7 @@
     notificationButton = document.createElement('button');
     notificationButton.type = 'button';
     notificationButton.className = 'ruh-notification-button';
-    notificationButton.textContent = String.fromCharCode(128276);
+    notificationButton.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>';
     notificationButton.setAttribute('data-notification-subscribe', '');
     notificationButton.addEventListener('click', handleNotificationButtonClick);
     document.body.appendChild(notificationButton);
@@ -188,7 +188,7 @@
     notificationPrompt.hidden = true;
 
     const title = document.createElement('strong');
-    title.textContent = String.fromCharCode(128276) + ' Enable RuhVerse notifications';
+    title.textContent = String.fromCodePoint(128276) + ' Enable RuhVerse notifications';
 
     const copy = document.createElement('p');
     copy.textContent = 'Allow reminders and new Islamic content updates from RuhVerse.';

@@ -2,24 +2,26 @@
     // Shared theme manager used across all pages.
     const STORAGE_KEY = 'ruhverse-theme';
     const DARK_VALUE = 'dark';
+    const LIGHT_VALUE = 'light';
 
     // Read persisted theme from localStorage (safe in restricted environments).
+    // Default to dark mode unless explicitly set to 'light'.
     function readStoredTheme() {
         try {
-            return localStorage.getItem(STORAGE_KEY) === DARK_VALUE;
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved === LIGHT_VALUE) {
+                return false;
+            }
+            return true;
         } catch (_) {
-            return false;
+            return true;
         }
     }
 
     // Persist or clear the dark theme preference.
     function persistTheme(isDark) {
         try {
-            if (isDark) {
-                localStorage.setItem(STORAGE_KEY, DARK_VALUE);
-            } else {
-                localStorage.removeItem(STORAGE_KEY);
-            }
+            localStorage.setItem(STORAGE_KEY, isDark ? DARK_VALUE : LIGHT_VALUE);
         } catch (_) {
             // Ignore storage failures in restricted environments.
         }
@@ -104,6 +106,10 @@
         updateToggleVisuals(getCurrentThemeState());
     }
 
+    if (document.body) {
+        applyTheme(readStoredTheme());
+    }
+
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initTheme);
     } else {
@@ -113,6 +119,7 @@
     window.RuhVerseTheme = {
         bindToggle,
         applyTheme,
-        setTheme
+        setTheme,
+        readStoredTheme
     };
 })();

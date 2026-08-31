@@ -187,20 +187,48 @@
     <script defer src="/onesignal-init.js?v=4"></script>
 </head>
 
-<body class="blog-article-page">
-    <nav class="navbar">
-        <a href="/index.html" class="logo">
-            <img src="/assets/RuhVerse.jpg" alt="RuhVerse" width="40" height="40" decoding="async">
-            RuhVerse
-        </a>
-        <ul class="nav-links">
-            <li><a href="/quran">Quran</a></li>
-            <li><a href="/index.html#prayer">Prayer</a></li>
-            <li><a href="/index.html#ramadan">Ramadan</a></li>
-            <li><a href="/index.html#insights">Insights</a></li>
+<body class="blog-article-page dark-mode">
+    <!-- Minimal Glass Navbar -->
+    <header class="navbar-wrapper">
+        <nav class="navbar has-mobile-menu">
+            <a href="/index.html" class="logo">
+                <span class="logo-avatar-wrap">
+                    <img src="/assets/RuhVerse.jpg" alt="RuhVerse Logo" width="40" height="40" decoding="async">
+                </span>
+                <span class="logo-text">RuhVerse</span>
+            </a>
+
+            <!-- Desktop Links -->
+            <ul class="nav-links">
+                <li><a href="/quran">Quran</a></li>
+                <li><a href="/index.html#prayer">Prayer</a></li>
+                <li><a href="/qibla">Qibla</a></li>
+                <li><a href="/index.html#ramadan">Ramadan</a></li>
+                <li><a href="/index.html#insights">Insights</a></li>
+                <li><a href="/blog">Blog</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <button type="button" class="moon-icon-btn" id="night-mode-toggle" aria-label="Toggle dark mode">&#9790;</button>
+                <div class="hamburger" id="hamburger-btn" aria-label="Open navigation menu">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="nav-overlay" id="nav-overlay">
+        <span class="close-btn" id="close-nav">&times;</span>
+        <ul class="nav-links-mobile">
+            <li><a href="/quran">Read Quran</a></li>
+            <li><a href="/index.html#prayer">Prayer Times</a></li>
+            <li><a href="/qibla">Qibla Finder</a></li>
+            <li><a href="/index.html#ramadan">Ramadan Hub</a></li>
+            <li><a href="/index.html#insights">Daily Insights</a></li>
             <li><a href="/blog">Blog</a></li>
         </ul>
-    </nav>
+    </div>
 
     <main class="article-shell">
         <nav aria-label="Breadcrumb" class="breadcrumb-nav">
@@ -530,6 +558,7 @@
     <script defer src="/footer-common.js"></script>
     <script defer src="/Blog%20Pages/blog-common.js"></script>
     <script src="/theme.js"></script>
+    <script defer src="/script.js"></script>
     <script defer src="/_vercel/insights/script.js"></script>
     <script defer src="/pwa.js?v=6"></script>
 </body>

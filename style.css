@@ -436,6 +436,46 @@ body.dark-mode .moon-icon-btn {
     border-color: rgba(255, 255, 255, 0.15);
 }
 
+.hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    border-radius: 50%;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+    cursor: pointer;
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.hamburger:hover {
+    transform: scale(1.05);
+    border-color: var(--gold);
+}
+
+.hamburger span {
+    display: block;
+    width: 18px;
+    height: 2px;
+    background-color: var(--emerald);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+body.dark-mode .hamburger {
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+body.dark-mode .hamburger span {
+    background-color: var(--gold);
+}
+
 .nav-actions {
     display: flex;
     gap: 0.9rem;
@@ -449,6 +489,7 @@ body.dark-mode .moon-icon-btn {
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    gap: 0.45rem;
     min-height: 36px;
     min-width: 84px;
     max-width: 180px;
@@ -463,6 +504,12 @@ body.dark-mode .moon-icon-btn {
     cursor: pointer;
     box-shadow: 0 9px 22px rgba(18, 53, 32, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.9);
     transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease, border-color 0.2s ease;
+}
+
+.login-nav-icon {
+    display: inline-block;
+    flex-shrink: 0;
+    pointer-events: none;
 }
 
 .premium-login-btn::after {
@@ -1475,19 +1522,47 @@ body.dark-mode .eid-promo-cta {
     }
 
     .navbar.has-mobile-menu .hamburger {
-        display: flex;
+        display: flex !important;
+    }
+
+    .nav-install-btn {
+        display: none !important;
     }
 
     .nav-login-desktop {
-        display: none;
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+        width: 38px;
+        height: 38px;
+        min-width: 38px;
+        min-height: 38px;
+        max-width: 38px;
+        padding: 0 !important;
+        border-radius: 50% !important;
+        box-shadow: 0 4px 14px rgba(18, 53, 32, 0.12);
+        cursor: pointer;
+    }
+
+    .nav-login-desktop .premium-login-main,
+    .nav-login-desktop .premium-login-sub {
+        display: none !important;
+    }
+
+    .nav-login-desktop .login-nav-icon {
+        display: block !important;
+        width: 18px;
+        height: 18px;
     }
 
     .nav-actions {
-        gap: 0.6rem;
+        display: flex !important;
+        gap: 0.45rem;
+        align-items: center;
     }
 
     .premium-login-btn {
-        min-width: 78px;
+        min-width: 38px;
         min-height: 34px;
         padding: 0.36rem 0.78rem;
     }
@@ -3741,6 +3816,45 @@ body.dark-mode .quick-detect-btn:hover {
     overflow: hidden;
 }
 
+body.dark-mode .featured-mosques-card {
+    background: var(--card-bg, #1E1E1E);
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-mode .featured-mosques-header h3 {
+    color: var(--emerald);
+}
+
+body.dark-mode .nearby-mosque-item {
+    border-color: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.04);
+}
+
+body.dark-mode .nearby-mosque-item h4 {
+    color: var(--emerald-light);
+}
+
+body.dark-mode .holy-mosques-head h3 {
+    color: var(--emerald);
+}
+
+body.dark-mode .holy-mosque-card {
+    background: var(--card-bg, #1E1E1E);
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-mode .holy-mosque-card h4 {
+    color: var(--emerald);
+}
+
+body.dark-mode .popular-mosques-ssr {
+    background: var(--card-bg, #1E1E1E);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-main);
+}
+
 /* Intelligence Grid - Asymmetrical Glass */
 .intelligence-grid {
     display: grid;
@@ -4079,6 +4193,11 @@ body.dark-mode .hub-card--pak {
         padding: 1rem;
         gap: 0.75rem;
         flex-wrap: wrap;
+    }
+
+    .navbar.has-mobile-menu {
+        flex-wrap: nowrap;
+        justify-content: space-between;
     }
 
     .logo {

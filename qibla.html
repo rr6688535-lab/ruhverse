@@ -446,7 +446,7 @@
     <script defer src="/onesignal-init.js?v=4"></script>
 </head>
 
-<body>
+<body class="dark-mode">
 
     <!-- ── Navbar (identical to homepage) ── -->
     <!--
@@ -455,29 +455,33 @@
       - Mobile overlay links in #nav-overlay
       - Interactions are handled by script.js (setupNavigation).
     -->
-    <nav class="navbar has-mobile-menu">
-        <a href="/index.html" class="logo">
-            <img src="/assets/RuhVerse.jpg" alt="RuhVerse Logo" width="40" height="40" decoding="async">
-            RuhVerse
-        </a>
+    <header class="navbar-wrapper">
+        <nav class="navbar has-mobile-menu">
+            <a href="/index.html" class="logo">
+                <span class="logo-avatar-wrap">
+                    <img src="/assets/RuhVerse.jpg" alt="RuhVerse Logo" width="40" height="40" decoding="async">
+                </span>
+                <span class="logo-text">RuhVerse</span>
+            </a>
 
-        <!-- Desktop Links -->
-        <ul class="nav-links">
-            <li><a href="/quran">Quran</a></li>
-            <li><a href="/index.html#prayer">Prayer</a></li>
-            <li><a href="/qibla" style="color:var(--emerald); font-weight:600;">Qibla</a></li>
-            <li><a href="/index.html#ramadan">Ramadan</a></li>
-            <li><a href="/index.html#insights">Insights</a></li>
-            <li><a href="/blog">Blog</a></li>
-        </ul>
+            <!-- Desktop Links -->
+            <ul class="nav-links">
+                <li><a href="/quran">Quran</a></li>
+                <li><a href="/index.html#prayer">Prayer</a></li>
+                <li><a href="/qibla" style="color:var(--emerald); font-weight:600;">Qibla</a></li>
+                <li><a href="/index.html#ramadan">Ramadan</a></li>
+                <li><a href="/index.html#insights">Insights</a></li>
+                <li><a href="/blog">Blog</a></li>
+            </ul>
 
-        <div style="display: flex; gap: 1rem; align-items: center;">
-            <span class="moon-icon" id="night-mode-toggle">&#9790;</span>
-            <div class="hamburger" id="hamburger-btn">
-                <span></span><span></span><span></span>
+            <div class="nav-actions">
+                <button type="button" class="moon-icon-btn" id="night-mode-toggle" aria-label="Toggle dark mode">&#9790;</button>
+                <div class="hamburger" id="hamburger-btn" aria-label="Open navigation menu">
+                    <span></span><span></span><span></span>
+                </div>
             </div>
-        </div>
-    </nav>
+        </nav>
+    </header>
 
     <!-- Mobile Menu Overlay -->
     <div class="nav-overlay" id="nav-overlay">

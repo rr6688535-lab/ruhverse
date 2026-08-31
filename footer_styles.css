@@ -10,6 +10,11 @@
     contain-intrinsic-size: 560px;
 }
 
+body.dark-mode .site-footer {
+    background-color: #0c1c14;
+    border-top-color: var(--gold);
+}
+
 .footer-content {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));

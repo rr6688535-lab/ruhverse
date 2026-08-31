@@ -18,7 +18,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RuhVerse: Read Quran Online, Prayer Times, Qibla Finder & Islamic Blog</title>
-    <link rel="stylesheet" href="style.css?v=2.6">
+    <link rel="stylesheet" href="style.css?v=2.8">
     <link rel="stylesheet" href="footer_styles.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
     <meta name="google-site-verification" content="bA13I1r9yS6hph6_rcKl0UiR_D-utehWgTTrVP28emo" />
@@ -170,7 +170,7 @@
     <script defer src="/onesignal-init.js?v=4"></script>
 </head>
 
-<body>
+<body class="dark-mode">
 
     <!-- Opening Splash & Reveal Animation Overlay -->
     <div id="site-opening-overlay" class="site-opening-overlay" aria-hidden="true">
@@ -211,7 +211,10 @@
             </ul>
 
             <div class="nav-actions">
-                <button type="button" class="premium-login-btn nav-login-desktop" data-auth-open="login" aria-controls="home-auth-modal" aria-label="Open login">
+                <button type="button" class="premium-login-btn nav-login-desktop" data-auth-open="login" aria-controls="home-auth-modal" aria-label="Open login" title="Login">
+                    <svg class="login-nav-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
                     <span class="premium-login-sub">RuhVerse</span>
                     <span class="premium-login-main">Login</span>
                 </button>

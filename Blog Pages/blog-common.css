@@ -614,21 +614,6 @@ body.dark-mode .quick-link-anchor:hover::after {
 }
 
 @media (max-width: 768px) {
-    .navbar {
-        flex-wrap: wrap;
-        row-gap: 0.8rem;
-    }
-
-    .navbar .nav-links {
-        display: flex;
-        margin-left: 0;
-        margin-right: 0;
-        width: 100%;
-        justify-content: center;
-        gap: 1rem;
-        flex-wrap: wrap;
-    }
-
     .blog-shell {
         padding: 6.2rem 0.95rem 4rem;
     }

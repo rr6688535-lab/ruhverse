@@ -130,22 +130,49 @@
     <script defer src="/onesignal-init.js?v=4"></script>
 </head>
 
-<body class="city-page">
+<body class="city-page dark-mode">
 
-    <!-- Navbar -->
-    <nav class="navbar">
-        <a href="/index.html" class="logo">
-            <img src="assets/RuhVerse.jpg" alt="RuhVerse">
-            RuhVerse
-        </a>
-        <ul class="nav-links">
-            <li><a href="/quran">Quran</a></li>
-            <li><a href="/index.html#prayer">Prayer</a></li>
-            <li><a href="/index.html#ramadan">Ramadan</a></li>
-            <li><a href="/index.html#insights">Insights</a></li>
+    <!-- Minimal Glass Navbar -->
+    <header class="navbar-wrapper">
+        <nav class="navbar has-mobile-menu">
+            <a href="/index.html" class="logo">
+                <span class="logo-avatar-wrap">
+                    <img src="/assets/RuhVerse.jpg" alt="RuhVerse Logo" width="40" height="40" decoding="async">
+                </span>
+                <span class="logo-text">RuhVerse</span>
+            </a>
+
+            <!-- Desktop Links -->
+            <ul class="nav-links">
+                <li><a href="/quran">Quran</a></li>
+                <li><a href="/index.html#prayer">Prayer</a></li>
+                <li><a href="/qibla">Qibla</a></li>
+                <li><a href="/index.html#ramadan">Ramadan</a></li>
+                <li><a href="/index.html#insights">Insights</a></li>
+                <li><a href="/blog">Blog</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <button type="button" class="moon-icon-btn" id="night-mode-toggle" aria-label="Toggle dark mode">&#9790;</button>
+                <div class="hamburger" id="hamburger-btn" aria-label="Open navigation menu">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="nav-overlay" id="nav-overlay">
+        <span class="close-btn" id="close-nav">&times;</span>
+        <ul class="nav-links-mobile">
+            <li><a href="/quran">Read Quran</a></li>
+            <li><a href="/index.html#prayer">Prayer Times</a></li>
+            <li><a href="/qibla">Qibla Finder</a></li>
+            <li><a href="/index.html#ramadan">Ramadan Hub</a></li>
+            <li><a href="/index.html#insights">Daily Insights</a></li>
             <li><a href="/blog">Blog</a></li>
         </ul>
-    </nav>
+    </div>
 
     <!-- Hero Section -->
     <section class="hero-section" style="padding: 10rem 2rem 6rem; text-align: center;">
@@ -189,35 +216,30 @@
                 <p style="color: var(--text-muted);">Calculations follow the University of Islamic Sciences (Karachi)
                     standard, widely accepted across the Indian subcontinent.</p>
             </div>
-        </div>
 
-    <!-- FAQs Section -->
-    <div class="container" style="padding-top: 2rem;">
-        <h2 class="section-title">City FAQs</h2>
-        <div class="faq-grid">
-            <div class="faq-item">
-                <h3>Which method is used for Delhi?</h3>
-                <p>We use the University of Islamic Sciences (Karachi) method with a Fajr Angle of 18° and Isha Angle of
-                    18°, perfectly tuned for the geographical location of New Delhi.</p>
-            </div>
-            <div class="faq-item">
-                <h3>Are these timings valid for Noida?</h3>
-                <p>Yes, these timings are accurate for the entire Delhi NCR region, including Noida, Gurgaon, and
-                    Ghaziabad, with less than 60 seconds of variation.</p>
-            </div>
-        </div>
+            <!-- FAQs Section -->
+            <div class="container" style="padding-top: 2rem;">
+                <h2 class="section-title">City FAQs</h2>
+                <div class="faq-grid">
+                    <div class="faq-item">
+                        <h3>Which method is used for Delhi?</h3>
+                        <p>We use the University of Islamic Sciences (Karachi) method with a Fajr Angle of 18° and Isha Angle of
+                            18°, perfectly tuned for the geographical location of New Delhi.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>Are these timings valid for Noida?</h3>
+                        <p>Yes, these timings are accurate for the entire Delhi NCR region, including Noida, Gurgaon, and
+                            Ghaziabad, with less than 60 seconds of variation.</p>
+                    </div>
+                </div>
 
-        <div style="margin-top: 4rem; text-align: center;">
-            <a href="index.html" class="btn-pill btn-outline">Back to Home Screen</a>
+                <div style="margin-top: 4rem; text-align: center;">
+                    <a href="index.html" class="btn-pill btn-outline">Back to Home Screen</a>
+                </div>
+            </div>
         </div>
-    </div>
     </section>
 
-    <!-- Footer -->
-    <div data-ruhverse-footer></div>
-    <script defer src="/footer-common.js"></script>
-
-    <script src="/theme.js"></script>
     <script>
         const PRAYER_NAMES = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
 
@@ -297,6 +319,10 @@
         }
         fetchDelhiTimes();
     </script>
+    <div data-ruhverse-footer></div>
+    <script defer src="/footer-common.js"></script>
+    <script src="/theme.js"></script>
+    <script defer src="/script.js"></script>
     <script defer src="/pwa.js?v=6"></script>
 </body>
 
